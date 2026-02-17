@@ -1,0 +1,66 @@
+<resources>
+    <!-- Nombre de la aplicación -->
+    <string name="app_name">Enajenarte</string>
+
+    <!-- Títulos de Activities -->
+    <string name="title_splash">Cargando</string>
+    <string name="title_register">Registro</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_workshop_list">Talleres</string>
+    <string name="title_workshop_detail">Detalle del Taller</string>
+    <string name="title_event_list">Eventos</string>
+    <string name="title_event_map">Mapa de Eventos</string>
+    <string name="title_my_registrations">Mis Inscripciones</string>
+
+    <!-- Botones principales -->
+    <string name="btn_register">Registrarse</string>
+    <string name="btn_enroll">Inscribirse</string>
+    <string name="btn_view_workshops">Ver Talleres</string>
+    <string name="btn_view_events">Ver Eventos</string>
+    <string name="btn_my_registrations">Mis Inscripciones</string>
+    <string name="btn_logout">Cerrar Sesión</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_edit">Editar</string>
+    <string name="btn_confirm">Confirmar</string>
+
+    <!-- Labels de formularios -->
+    <string name="label_username">Nombre de usuario</string>
+    <string name="label_email">Email</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_description">Descripción</string>
+    <string name="label_date">Fecha</string>
+    <string name="label_price">Precio</string>
+    <string name="label_duration">Duración (minutos)</string>
+    <string name="label_is_online">Modalidad Online</string>
+
+    <!-- Mensajes de estado -->
+    <string name="loading">Cargando...</string>
+    <string name="no_connection">Sin conexión</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+    <string name="empty_list">No hay elementos para mostrar</string>
+    <string name="success_operation">Operación exitosa</string>
+
+    <!-- Menú ActionBar -->
+    <string name="menu_home">Inicio</string>
+    <string name="menu_workshops">Talleres</string>
+    <string name="menu_events">Eventos</string>
+    <string name="menu_my_registrations">Mis Inscripciones</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_map">Mapa</string>
+
+    <!-- Diálogos -->
+    <string name="dialog_delete_title">Confirmar eliminación</string>
+    <string name="dialog_delete_message">¿Estás segura de que deseas eliminar este elemento?</string>
+    <string name="dialog_logout_title">Cerrar sesión</string>
+    <string name="dialog_logout_message">¿Deseas cerrar sesión?</string>
+
+    <!-- Búsqueda -->
+    <string name="search_workshops">Buscar talleres...</string>
+    <string name="search_events">Buscar eventos...</string>
+
+    <!-- Bienvenida -->
+    <string name="welcome_message">Bienvenida a Enajenarte</string>
+    <string name="welcome_subtitle">Explora nuestros talleres culturales</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores primarios (tema cultural/artístico) -->
+    <color name="primary">#6A1B9A</color>           <!-- Púrpura cultural -->
+    <color name="primary_dark">#4A148C</color>      <!-- Púrpura oscuro -->
+    <color name="primary_light">#9C4DCC</color>     <!-- Púrpura claro -->
+
+    <!-- Colores secundarios/acento -->
+    <color name="accent">#FF6F00</color>            <!-- Naranja artístico -->
+    <color name="accent_dark">#E65100</color>       <!-- Naranja oscuro -->
+    <color name="accent_light">#FF9800</color>      <!-- Naranja claro -->
+
+    <!-- Fondos -->
+    <color name="background">#FAFAFA</color>        <!-- Gris muy claro -->
+    <color name="surface">#FFFFFF</color>           <!-- Blanco -->
+
+    <!-- Textos -->
+    <color name="text_primary">#212121</color>      <!-- Negro -->
+    <color name="text_secondary">#757575</color>    <!-- Gris -->
+
+    <!-- Estados -->
+    <color name="error">#D32F2F</color>             <!-- Rojo -->
+    <color name="success">#388E3C</color>           <!-- Verde -->
+
+    <!-- Material Design estándar (mantener) -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
