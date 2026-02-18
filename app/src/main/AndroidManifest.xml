@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.WorkshopListActivity"
+            android:name=".view.MainActivity$WorkshopListActivity"
             android:exported="false"/>
         <activity
             android:name=".view.MainActivity"

@@ -8,7 +8,6 @@ import java.util.List;
 
 public class WorkshopListPresenter implements WorkshopListContract.Presenter,
         WorkshopListContract.Model.OnLoadListener {
-
     private WorkshopListContract.Model model;
     private WorkshopListContract.View view;
 
@@ -31,5 +30,19 @@ public class WorkshopListPresenter implements WorkshopListContract.Presenter,
     @Override
     public void onLoadError(String message) {
         view.showError(message);
+    }
+    @Override
+    public void deleteWorkshop(long id) {
+        model.deleteWorkshop(id, new WorkshopListContract.Model.OnDeleteListener() {
+            @Override
+            public void onDeleteSuccess() {
+                view.showMessage("Taller eliminado");
+                loadWorkshops(null, null, null);
+            }
+            @Override
+            public void onDeleteError(String message) {
+                view.showError(message);
+            }
+        });
     }
 }
