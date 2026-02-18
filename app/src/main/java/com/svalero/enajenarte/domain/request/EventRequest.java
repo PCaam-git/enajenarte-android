@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class EventRequest {
     private String title;
     private String location;
-    private String eventDate;            // date-time como String
-    private int expectedAttendance;      // solo InDto
+    private String eventDate;
+    private int expectedAttendance;
     private boolean isPublic;
     private float entryFee;
     private long speakerId;

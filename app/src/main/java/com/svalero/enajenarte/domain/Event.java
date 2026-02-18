@@ -13,7 +13,7 @@ public class Event {
     private long id;
     private String title;
     private String location;
-    private String eventDate;    // format: date-time (String por simplicidad)
+    private String eventDate;
     private float entryFee;
     private boolean isPublic;
     private long speakerId;

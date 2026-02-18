@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Registration {
     private long id;
-    private LocalDate registrationDate; // format: date
+    private LocalDate registrationDate;
     private boolean isPaid;
     private int numberOfTickets;
     private float amountPaid;
