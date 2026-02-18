@@ -16,7 +16,7 @@ public class LocalDateAdapter extends TypeAdapter<LocalDate> {
             out.nullValue();
             return;
         }
-        out.value(value.toString()); // ISO-8601: yyyy-MM-dd
+        out.value(value.toString()); // yyyy-MM-dd
     }
 
     @Override
