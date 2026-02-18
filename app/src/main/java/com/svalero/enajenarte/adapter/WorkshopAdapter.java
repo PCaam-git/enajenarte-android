@@ -7,63 +7,69 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.domain.Workshop;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-// Convierte Workshops en filas visuales
 public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.WorkshopViewHolder> {
 
-    // Da acceso a recursos Android
-    private Context context;
-    private List<Workshop> workshopList;
+    public interface OnWorkshopLongClickListener {
+        void onWorkshopLongClick(Workshop workshop);
+    }
 
-    // Se entregan los datos al adaptador
-    public WorkshopAdapter(Context context, List<Workshop> workshopList) {
+    private final Context context;
+    private final List<Workshop> workshopList;
+    private final OnWorkshopLongClickListener longClickListener;
+
+    public WorkshopAdapter(Context context, List<Workshop> workshopList, OnWorkshopLongClickListener longClickListener) {
         this.context = context;
         this.workshopList = workshopList;
+        this.longClickListener = longClickListener;
     }
 
-    // Crea una fila vacía basada en el xml, todavía no hay datos
-    @NotNull
+    @NonNull
     @Override
-    public WorkshopViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_workshop, parent, false);
-        return new WorkshopViewHolder(view);
+    public WorkshopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View rowView = LayoutInflater.from(context).inflate(R.layout.item_workshop, parent, false);
+        return new WorkshopViewHolder(rowView);
     }
 
-    // Rellena una fila con datos del workshop en la posición dada
     @Override
-    public void onBindViewHolder(@NotNull WorkshopViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WorkshopViewHolder holder, int position) {
+
         Workshop workshop = workshopList.get(position);
-        holder.workshopName.setText(workshop.getName());
-        holder.workshopDate.setText(workshop.getStartDate() !=null ? workshop.getStartDate().toString() : "");
+
+        holder.workshopNameTextView.setText(workshop.getName());
+        holder.workshopDateTextView.setText(workshop.getStartDate() != null
+                ? workshop.getStartDate().toString()
+                : "");
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onWorkshopLongClick(workshop);
+                return true;
+            }
+            return false;
+        });
     }
 
-    // Devuelve el número de filas que hay que dibujar
     @Override
     public int getItemCount() {
         return workshopList.size();
     }
 
-    // Clase que representa una fila visual
-    // Cada fila contiene un nombre y una fecha
     public static class WorkshopViewHolder extends RecyclerView.ViewHolder {
-        TextView workshopName;
-        TextView workshopDate;
 
-        public WorkshopViewHolder(@NotNull View itemView) {
+        TextView workshopNameTextView;
+        TextView workshopDateTextView;
+
+        public WorkshopViewHolder(@NonNull View itemView) {
             super(itemView);
-            // R = resource index generado automáticamente por android
-            // Devuelve el TextView cuyo id en XML es workshop_name
-            workshopName = itemView.findViewById(R.id.workshop_name);
-            workshopDate = itemView.findViewById(R.id.workshop_date);
+            workshopNameTextView = itemView.findViewById(R.id.workshop_name);
+            workshopDateTextView = itemView.findViewById(R.id.workshop_date);
         }
     }
 }

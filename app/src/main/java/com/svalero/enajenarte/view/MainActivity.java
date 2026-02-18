@@ -3,27 +3,26 @@ package com.svalero.enajenarte.view;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import com.svalero.enajenarte.view.WorkshopListActivity;
-import android.content.Intent;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.svalero.enajenarte.adapter.WorkshopAdapter;
+import com.svalero.enajenarte.contract.WorkshopListContract;
+import com.svalero.enajenarte.presenter.WorkshopListPresenter;
 
 import com.svalero.enajenarte.R;
 
-import android.util.Log;
+import android.widget.Toast;
 
-import com.svalero.enajenarte.api.WorkshopApi;
-import com.svalero.enajenarte.api.WorkshopApiInterface;
-import com.svalero.enajenarte.domain.User;
 import com.svalero.enajenarte.domain.Workshop;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
