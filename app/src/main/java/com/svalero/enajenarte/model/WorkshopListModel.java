@@ -16,38 +16,53 @@ public class WorkshopListModel implements WorkshopListContract.Model {
     @Override
     public void loadWorkshops(String name, String isOnline, String speakerId, OnLoadListener listener) {
 
-        // 1) Obtener API
         WorkshopApiInterface api = WorkshopApi.buildInstance();
-
-        // 2) Crear llamada
         Call<List<Workshop>> call = api.getWorkshops(name, isOnline, speakerId);
 
-        // 3) Ejecutar llamada asíncrona
         call.enqueue(new Callback<List<Workshop>>() {
-
             @Override
             public void onResponse(Call<List<Workshop>> call, Response<List<Workshop>> response) {
 
                 if (response.isSuccessful()) {
-
                     List<Workshop> workshops = response.body();
 
-                    // Spring devuelve 204 → body null
+                    // Si backend devuelve 204 -> body null
                     if (workshops == null) {
                         listener.onLoadSuccess(java.util.Collections.emptyList());
                         return;
                     }
 
                     listener.onLoadSuccess(workshops);
-
                 } else {
                     listener.onLoadError("Error HTTP: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Workshop>> call, Throwable t) {
-                listener.onLoadError(t.getMessage());
+            public void onFailure(Call<List<Workshop>> call, Throwable throwable) {
+                listener.onLoadError(throwable.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void deleteWorkshop(long id, OnDeleteListener listener) {
+
+        WorkshopApiInterface api = WorkshopApi.buildInstance();
+
+        api.deleteWorkshop(id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    listener.onDeleteSuccess();
+                } else {
+                    listener.onDeleteError("Error HTTP: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                listener.onDeleteError(throwable.getMessage());
             }
         });
     }

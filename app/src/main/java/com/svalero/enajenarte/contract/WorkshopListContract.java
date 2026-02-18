@@ -8,10 +8,18 @@ public interface WorkshopListContract {
     interface Model {
         interface OnLoadListener {
             void onLoadSuccess(List<Workshop> workshops);
+
             void onLoadError(String message);
         }
 
+        interface OnDeleteListener {
+            void onDeleteSuccess();
+            void onDeleteError(String message);
+        }
+
         void loadWorkshops(String name, String isOnline, String speakerId, OnLoadListener listener);
+
+        void deleteWorkshop(long id, OnDeleteListener listener);
     }
 
     interface View {
@@ -22,5 +30,6 @@ public interface WorkshopListContract {
 
     interface Presenter {
         void loadWorkshops(String name, String isOnline, String speakerId);
+        void deleteWorkshop(long id);
     }
 }

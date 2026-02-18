@@ -3,6 +3,7 @@ package com.svalero.enajenarte.view;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,14 +29,22 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         setContentView(R.layout.activity_workshop_list);
 
         presenter = new WorkshopListPresenter(this);
-
         workshopList = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.workshop_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        workshopAdapter = new WorkshopAdapter(this, workshopList);
+        workshopAdapter = new WorkshopAdapter(this, workshopList, workshop -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Eliminar taller")
+                    .setMessage("¿Seguro que quieres eliminar \"" + workshop.getName() + "\"?")
+                    .setPositiveButton("Eliminar", (dialog, which) ->
+                            presenter.deleteWorkshop(workshop.getId()))
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
+
         recyclerView.setAdapter(workshopAdapter);
 
         setTitle("Talleres");
