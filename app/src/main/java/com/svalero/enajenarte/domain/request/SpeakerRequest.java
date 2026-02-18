@@ -19,5 +19,5 @@ public class SpeakerRequest {
     private int yearsExperience;
     private float workshopHoursTotal;
     private boolean available;
-    private LocalDate joinDate; // date
+    private LocalDate joinDate;
 }
