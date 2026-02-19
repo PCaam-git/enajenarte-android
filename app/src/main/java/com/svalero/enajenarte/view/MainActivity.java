@@ -14,10 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.enajenarte.adapter.WorkshopAdapter;
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.presenter.WorkshopListPresenter;
+import com.svalero.enajenarte.view.WorkshopListActivity;
+
 
 import com.svalero.enajenarte.R;
 
 import android.widget.Toast;
+import android.content.Intent;
+import android.widget.Button;
 
 import com.svalero.enajenarte.domain.Workshop;
 
@@ -31,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        //startActivity(new Intent(this, WorkshopListActivity.class));
-        //finish();
+        Button buttonOpenWorkshops = findViewById(R.id.button_open_workshops);
+        buttonOpenWorkshops.setOnClickListener(v -> {
+            startActivity(new Intent(this, WorkshopListActivity.class));
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
