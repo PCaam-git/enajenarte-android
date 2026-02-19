@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/workshop_detail_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/workshop_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- TÍTULO (valor) -->
+        <TextView
+            android:id="@+id/text_workshop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(nombre)"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- DESCRIPCIÓN (valor) -->
+        <TextView
+            android:id="@+id/text_workshop_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(descripción)"
+            android:layout_marginTop="8dp" />
+
+        <!-- BLOQUE: pares Label + Value -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha de inicio:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/text_workshop_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(startDate)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duración (minutos):"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/text_workshop_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(durationMinutes)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Precio:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/text_workshop_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(price)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Online:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/text_workshop_is_online"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(isOnline)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Speaker ID:"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/text_workshop_speaker_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(speakerId)" />
+
+    </LinearLayout>
+</ScrollView>

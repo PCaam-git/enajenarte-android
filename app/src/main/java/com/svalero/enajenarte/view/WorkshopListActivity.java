@@ -1,5 +1,6 @@
 package com.svalero.enajenarte.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -36,14 +37,12 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         workshopAdapter = new WorkshopAdapter(this, workshopList, workshop -> {
-            new AlertDialog.Builder(this)
-                    .setTitle("Eliminar taller")
-                    .setMessage("¿Seguro que quieres eliminar \"" + workshop.getName() + "\"?")
-                    .setPositiveButton("Eliminar", (dialog, which) ->
-                            presenter.deleteWorkshop(workshop.getId()))
-                    .setNegativeButton("Cancelar", null)
-                    .show();
-        });
+            Intent intent = new Intent(this, WorkshopDetailActivity.class);
+            intent.putExtra("workshop_id", workshop.getId());
+            startActivity(intent);
+        },
+                workshop -> showDeleteDialog(workshop)
+        );
 
         recyclerView.setAdapter(workshopAdapter);
 
@@ -56,6 +55,14 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         presenter.loadWorkshops(null, null, null);
     }
 
+    private void showDeleteDialog(Workshop workshop) {
+        new AlertDialog.Builder(this)
+        .setTitle("Eliminar taller")
+        .setMessage("¿Seguro que quieres eliminar \"" + workshop.getName() + "\"?")
+        .setPositiveButton("Eliminar", (dialog, which) -> presenter.deleteWorkshop(workshop.getId()))
+        .setNegativeButton("Cancelar", null)
+        .show();
+    }
     @Override
     public void showWorkshops(List<Workshop> workshops) {
         workshopList.clear();
