@@ -19,14 +19,20 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     public interface OnWorkshopLongClickListener {
         void onWorkshopLongClick(Workshop workshop);
     }
+    public interface OnWorkshopClickListener {
+        void onWorkshopClick(Workshop workshop);
+    }
+
 
     private final Context context;
     private final List<Workshop> workshopList;
+    private final OnWorkshopClickListener clickListener;
     private final OnWorkshopLongClickListener longClickListener;
 
-    public WorkshopAdapter(Context context, List<Workshop> workshopList, OnWorkshopLongClickListener longClickListener) {
+    public WorkshopAdapter(Context context, List<Workshop> workshopList, OnWorkshopClickListener clickListener,OnWorkshopLongClickListener longClickListener) {
         this.context = context;
         this.workshopList = workshopList;
+        this.clickListener = clickListener;
         this.longClickListener = longClickListener;
     }
 
@@ -47,12 +53,14 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
                 ? workshop.getStartDate().toString()
                 : "");
 
-        holder.itemView.setOnLongClickListener(v -> {
-            if (longClickListener != null) {
-                longClickListener.onWorkshopLongClick(workshop);
+        holder.itemView.setOnClickListener(view ->
+                clickListener.onWorkshopClick(workshop)
+        );
+
+        holder.itemView.setOnLongClickListener(view -> {
+            longClickListener.onWorkshopLongClick(workshop);
                 return true;
-            }
-            return false;
+
         });
     }
 
