@@ -94,5 +94,12 @@
             android:layout_height="wrap_content"
             android:text="(speakerId)" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_edit_workshop"
+            android:text="Editar taller"
+            android:layout_marginTop="16dp"/>
+
     </LinearLayout>
 </ScrollView>

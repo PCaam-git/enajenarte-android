@@ -18,6 +18,7 @@ public class Workshop {
     private LocalDate startDate;     // format: date
     private int durationMinutes;
     private float price;
+    private int maxCapacity;
     private boolean isOnline;
     private long speakerId;
 }
