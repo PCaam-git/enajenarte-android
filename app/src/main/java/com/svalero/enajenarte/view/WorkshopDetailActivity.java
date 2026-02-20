@@ -1,5 +1,6 @@
 package com.svalero.enajenarte.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
 
     private WorkshopDetailPresenter presenter;
+    private long workshopId;
     private TextView nameTextView;
     private TextView descriptionTextView;
     private TextView startDateTextView;
@@ -40,9 +42,19 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         isOnlineTextView = findViewById(R.id.text_workshop_is_online);
         speakerIdTextView = findViewById(R.id.text_workshop_speaker_id);
 
+
+        workshopId = getIntent().getLongExtra("workshop_id", -1);
+        presenter = new WorkshopDetailPresenter(this);
+
+        findViewById(R.id.button_edit_workshop).setOnClickListener(view -> {
+            Intent intent = new Intent(this, WorkshopEditActivity.class);
+            intent.putExtra("workshop_id", workshopId);
+            startActivity(intent);
+        });
+
+
         if (nameTextView == null) {
             Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
-                    finish();
             return;
         }
 
@@ -53,8 +65,15 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
             return;
         }
 
-        presenter = new WorkshopDetailPresenter(this);
         presenter.loadWorkshop(id);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (workshopId != -1) {
+            presenter.loadWorkshop(workshopId);
+        }
     }
 
     @Override
