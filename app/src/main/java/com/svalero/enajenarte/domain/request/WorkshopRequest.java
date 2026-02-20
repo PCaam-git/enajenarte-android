@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class WorkshopRequest {
     private String name;
     private String description;
-    private LocalDate startDate;
+    private String startDate; // prueba con String
     private int durationMinutes;
     private float price;
     private int maxCapacity;
