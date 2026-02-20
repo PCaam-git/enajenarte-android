@@ -11,13 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EventApi {
 
     public static EventApiInterface buildInstance() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create();
+        //Gson gson = new GsonBuilder()
+          //      .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            //    .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8080/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         return retrofit.create(EventApiInterface.class);

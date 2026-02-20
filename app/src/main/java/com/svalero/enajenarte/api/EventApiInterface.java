@@ -20,7 +20,7 @@ public interface EventApiInterface {
     Call<List<Event>> getEvents(
             @Query("title") String title,
             @Query("location") String location,
-            @Query("isPublic") String isPublic
+            @Query("isPublic") Boolean isPublic
     );
 
     @POST("events")
