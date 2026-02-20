@@ -21,10 +21,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         Button buttonOpenWorkshops = findViewById(R.id.button_open_workshops);
         buttonOpenWorkshops.setOnClickListener(v -> {
             startActivity(new Intent(this, WorkshopListActivity.class));
         });
+
+        Button buttonOpenEvents = findViewById(R.id.button_open_events);
+        buttonOpenEvents.setOnClickListener(view -> {
+            startActivity(new Intent(this, EventListActivity.class));
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
