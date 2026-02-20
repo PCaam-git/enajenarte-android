@@ -69,20 +69,25 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         // Get id
         workshopId = getIntent().getLongExtra("workshop_id", -1);
-        if (workshopId == -1) {
-            Toast.makeText(this, "ID del taller no recibido", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+
+        boolean isEditMode = workshopId != -1;
+
+        if (isEditMode) {
+            loadWorkshop(workshopId);
+            setTitle("Editar taller");
+        } else {
+            setTitle("Crear taller");
         }
 
         // Precargar datos
-        loadWorkshop(workshopId);
+       // loadWorkshop(workshopId); comentado para comprobar si el fallo de volver atrás al pulsar 'crear' se soluciona
 
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
     }
 
     private void loadWorkshop(long id) {
+        if (id == -1) return; // modo crear, no tiene que precargar
         WorkshopApiInterface apiInterface = WorkshopApi.buildInstance();
         apiInterface.getWorkshop(id).enqueue(new Callback<Workshop>() {
             @Override
@@ -96,8 +101,9 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             }
 
             @Override
-            public void onFailure(Call<Workshop> call, Throwable t) {
-                Toast.makeText(WorkshopEditActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Workshop> call, Throwable throwable) {
+                Toast.makeText(WorkshopEditActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                if (workshopId != -1) // solo cierra en el modo editar
                 finish();
             }
         });
@@ -107,7 +113,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         editName.setText(workshop.getName());
         editDescription.setText(workshop.getDescription());
 
-        // Si tu modelo usa String, perfecto. Si usa LocalDate, usa toString().
+
         if (workshop.getStartDate() != null) {
             editStartDate.setText(workshop.getStartDate().toString());
         }
@@ -154,7 +160,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             return;
         }
 
-        if (maxCapacity < 1) { // ✅ NUEVO
+        if (maxCapacity < 1) {
             showError("Capacidad mínima: 1");
             return;
         }
@@ -170,15 +176,25 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                 .startDate(startDate)
                 .durationMinutes(duration)
                 .price(price)
-                .maxCapacity(maxCapacity)         //CLAVE para evitar 400. no está en outdto pero sí en indto
+                .maxCapacity(maxCapacity)         //para evitar 400. no está en outdto pero sí en indto
                 .isOnline(switchOnline.isChecked())
                 .speakerId(speakerId)
                 .build();
 
         new AlertDialog.Builder(this)
-                .setTitle("Guardar cambios")
-                .setMessage("¿Quieres actualizar este taller?")
-                .setPositiveButton("Guardar", (dialog, which) -> presenter.updateWorkshop(workshopId, request))
+                .setTitle("Confirmar")
+                .setMessage(workshopId != -1 ?
+                        "¿Actualizar este taller?" :
+                        "¿Crear este taller?")
+                .setPositiveButton("Aceptar", (dialog, which) -> {
+
+                    if (workshopId != -1) {
+                        presenter.updateWorkshop(workshopId, request);
+                    } else {
+                        presenter.createWorkshop(request);
+                    }
+
+                })
                 .setNegativeButton("Cancelar", null)
                 .show();
     }

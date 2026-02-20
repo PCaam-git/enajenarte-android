@@ -95,13 +95,5 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_workshop_detail);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
     }
 }

@@ -41,4 +41,25 @@ public class WorkshopEditModel implements WorkshopEditContract.Model {
             }
         });
     }
+
+    @Override
+    public void createWorkshop(WorkshopRequest workshopRequest, OnUpdateListener listener) {
+        WorkshopApiInterface apiInterface = WorkshopApi.buildInstance();
+
+        apiInterface.createWorkshop(workshopRequest).enqueue(new Callback<Workshop>() {
+            @Override
+            public void onResponse(Call<Workshop> call, Response<Workshop> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listener.onUpdateSuccess(response.body());
+                } else {
+                    listener.onUpdateError("Error HTTP: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Workshop> call, Throwable throwable) {
+                listener.onUpdateError(throwable.getMessage());
+            }
+        });
+    }
 }

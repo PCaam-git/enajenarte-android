@@ -10,6 +10,8 @@ public interface WorkshopEditContract {
             void onUpdateError(String message);
         }
         void updateWorkshop(long id, WorkshopRequest workshopRequest, OnUpdateListener listener);
+
+        void createWorkshop(WorkshopRequest workshopRequest, OnUpdateListener listener);
     }
     public interface View {
         void showMessage(String message);
@@ -18,5 +20,6 @@ public interface WorkshopEditContract {
 }
     public interface Presenter {
         void updateWorkshop(long id, WorkshopRequest workshopRequest);
+        void createWorkshop(WorkshopRequest workshopRequest);
     }
 }
