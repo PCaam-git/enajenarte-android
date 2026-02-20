@@ -22,6 +22,11 @@ public class WorkshopEditPresenter implements WorkshopEditContract.Presenter,
     }
 
     @Override
+    public void createWorkshop(WorkshopRequest workshopRequest) {
+        model.createWorkshop(workshopRequest, this);
+    }
+
+    @Override
     public void onUpdateSuccess(Workshop workshop) {
         view.showMessage("Taller actualizado");
         view.closeAfterUpdate();

@@ -2,6 +2,7 @@ package com.svalero.enajenarte.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,6 +32,13 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
 
         presenter = new WorkshopListPresenter(this);
         workshopList = new ArrayList<>();
+
+        Button createButton = findViewById(R.id.button_create_workshop);
+        createButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, WorkshopEditActivity.class);
+            startActivity(intent);
+        });
+
 
         RecyclerView recyclerView = findViewById(R.id.workshop_list);
         recyclerView.setHasFixedSize(true);
