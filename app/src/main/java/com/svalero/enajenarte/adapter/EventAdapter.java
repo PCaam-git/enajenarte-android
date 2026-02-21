@@ -22,20 +22,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         void onEventClick(Event event);
     }
 
-//    public interface OnEventLongClickListener {
-//        void onEventLongClick(Event event);
-//    }
+    public interface OnEventLongClickListener {
+        void onEventLongClick(Event event);
+    }
 
     private final Context context;
     private final List<Event> eventList;
     private final OnEventClickListener clickListener;
-    //private final OnEventLongClickListener longClickListener;
+    private final OnEventLongClickListener longClickListener;
 
-    public EventAdapter(Context context, List<Event> eventList, OnEventClickListener clickListener) {
+    public EventAdapter(Context context, List<Event> eventList, OnEventClickListener clickListener, OnEventLongClickListener longClickListener) {
         this.context = context;
         this.eventList = eventList;
         this.clickListener = clickListener;
-        //this.longClickListener = longClickListener;
+        this.longClickListener = longClickListener;
     }
 
     @NotNull
@@ -58,12 +58,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 clickListener.onEventClick(event));
 
 
-//        holder.itemView.setOnLongClickListener(view ->
-//
-//        {
-//            longClickListener.onEventLongClick(event);
-//            return true;
-//        });
+        holder.itemView.setOnLongClickListener(view -> {
+            longClickListener.onEventLongClick(event);
+            return true;
+        });
     }
 
 
