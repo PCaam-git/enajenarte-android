@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.domain.Event;
+import com.svalero.enajenarte.util.DateUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,14 +22,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         void onEventClick(Event event);
     }
 
+//    public interface OnEventLongClickListener {
+//        void onEventLongClick(Event event);
+//    }
+
     private final Context context;
     private final List<Event> eventList;
     private final OnEventClickListener clickListener;
+    //private final OnEventLongClickListener longClickListener;
 
     public EventAdapter(Context context, List<Event> eventList, OnEventClickListener clickListener) {
         this.context = context;
         this.eventList = eventList;
         this.clickListener = clickListener;
+        //this.longClickListener = longClickListener;
     }
 
     @NotNull
@@ -44,12 +51,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         holder.eventTitleTextView.setText(event.getTitle());
         holder.eventDateTextView.setText(
-                com.svalero.enajenarte.util.DateUtil.formatDateTime(event.getEventDate())
+                DateUtil.formatDateTime(event.getEventDate())
         );
 
         holder.itemView.setOnClickListener(view ->
                 clickListener.onEventClick(event));
+
+
+//        holder.itemView.setOnLongClickListener(view ->
+//
+//        {
+//            longClickListener.onEventLongClick(event);
+//            return true;
+//        });
     }
+
 
     @Override
     public int getItemCount() {
