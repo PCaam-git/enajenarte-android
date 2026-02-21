@@ -79,9 +79,6 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             setTitle("Crear taller");
         }
 
-        // Precargar datos
-       // loadWorkshop(workshopId); comentado para comprobar si el fallo de volver atrás al pulsar 'crear' se soluciona
-
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
     }
