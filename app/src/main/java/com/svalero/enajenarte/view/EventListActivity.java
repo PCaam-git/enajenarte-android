@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.adapter.EventAdapter;
 import com.svalero.enajenarte.contract.EventListContract;
 import com.svalero.enajenarte.domain.Event;
+import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.EventListPresenter;
 
 import java.util.ArrayList;
@@ -47,7 +49,10 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
             Intent intent = new Intent(this, EventDetailActivity.class);
             intent.putExtra("event_id", event.getId());
             startActivity(intent);
-        });
+        },
+                event -> showDeleteDialog(event)
+        );
+
         recyclerView.setAdapter(eventAdapter);
 
         setTitle("Eventos");
@@ -57,6 +62,15 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
     protected void onResume() {
         super.onResume();
         presenter.loadEvents(null, null, null); // sin filtros
+    }
+
+    private void showDeleteDialog(Event event) {
+        new AlertDialog.Builder(this)
+                .setTitle("Eliminar evento")
+                .setMessage("¿Seguro que quieres eliminar \"" + event.getTitle() + "\"?")
+                .setPositiveButton("Eliminar", (dialog, which) -> presenter.deleteEvent(event.getId()))
+                .setNegativeButton("Cancelar", null)
+                .show();
     }
 
     @Override

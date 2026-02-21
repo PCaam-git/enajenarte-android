@@ -45,4 +45,26 @@ public class EventListModel implements EventListContract.Model {
             }
         });
     }
+
+    @Override
+    public void deleteEvent(long id, OnDeleteListener listener) {
+
+        EventApiInterface eventApiInterface = EventApi.buildInstance();
+
+        eventApiInterface.deleteEvent(id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    listener.onDeleteSuccess();
+                } else {
+                    listener.onDeleteError("Error HTTP: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                listener.onDeleteError(throwable.getMessage());
+            }
+        });
+    }
 }

@@ -7,7 +7,8 @@ import com.svalero.enajenarte.model.EventListModel;
 import java.util.List;
 
 
-public class EventListPresenter implements EventListContract.Presenter, EventListContract.Model.OnLoadListener {
+public class EventListPresenter implements EventListContract.Presenter,
+        EventListContract.Model.OnLoadListener {
 
     private final EventListContract.Model model;
     private final EventListContract.View view;
@@ -31,5 +32,22 @@ public class EventListPresenter implements EventListContract.Presenter, EventLis
     @Override
     public void onLoadError(String message) {
         view.showError(message);
+    }
+
+    @Override
+    public void deleteEvent(long id) {
+        model.deleteEvent(id, new EventListContract.Model.OnDeleteListener() {
+
+            @Override
+            public void onDeleteSuccess() {
+                view.showMessage("Evento eliminado");
+                loadEvents(null, null, null);
+            }
+
+            @Override
+            public void onDeleteError(String message) {
+                view.showError(message);
+            }
+        });
     }
 }
