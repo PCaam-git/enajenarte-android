@@ -1,29 +1,30 @@
 package com.svalero.enajenarte.model;
 
-import com.svalero.enajenarte.api.WorkshopApi;
-import com.svalero.enajenarte.api.WorkshopApiInterface;
-import com.svalero.enajenarte.contract.WorkshopEditContract;
+import com.svalero.enajenarte.api.EventApi;
+import com.svalero.enajenarte.api.EventApiInterface;
+import com.svalero.enajenarte.contract.EventEditContract;
+import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.domain.Workshop;
-import com.svalero.enajenarte.domain.request.WorkshopRequest;
+import com.svalero.enajenarte.domain.request.EventRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-public class WorkshopEditModel implements WorkshopEditContract.Model {
+public class EventEditModel implements EventEditContract.Model {
 
     @Override
-    public void updateWorkshop(long id, WorkshopRequest workshopRequest, OnUpdateListener listener) {
+    public void updateEvent(long id, EventRequest eventRequest, OnUpdateListener listener) {
 
         // El Model se encarga de acceder a la API (fuente de datos).
         // Aquí construimos la interfaz de Retrofit para ejecutar la llamada HTTP.
-        WorkshopApiInterface WorkkshopApiInterface = WorkshopApi.buildInstance();
+        EventApiInterface apiInterface = EventApi.buildInstance();
 
-        // Llamada PUT /workshops/{id}.
+        // Llamada PUT /events/{id}.
         // Delegamos en Retrofit y usamos enqueue (asíncrono) para no bloquear la UI.
-        WorkkshopApiInterface.updateWorkshop(id, workshopRequest).enqueue(new Callback<Workshop>() {
+        apiInterface.updateEvent(id, eventRequest).enqueue(new Callback<Event>() {
             @Override
-            public void onResponse(Call<Workshop> call, Response<Workshop> response) {
+            public void onResponse(Call<Event> call, Response<Event> response) {
+
                 // Si la respuesta es correcta y viene un body, notificamos éxito al Presenter.
                 if (response.isSuccessful() && response.body() != null) {
                     listener.onUpdateSuccess(response.body());
@@ -43,7 +44,7 @@ public class WorkshopEditModel implements WorkshopEditContract.Model {
             }
 
             @Override
-            public void onFailure(Call<Workshop> call, Throwable throwable) {
+            public void onFailure(Call<Event> call, Throwable throwable) {
                 // Error de red / excepción: notificamos el mensaje al Presenter.
                 listener.onUpdateError(throwable.getMessage());
             }
@@ -51,17 +52,18 @@ public class WorkshopEditModel implements WorkshopEditContract.Model {
     }
 
     @Override
-    public void createWorkshop(WorkshopRequest workshopRequest, OnUpdateListener listener) {
+    public void createEvent(EventRequest eventRequest, OnUpdateListener listener) {
 
         // El Model se encarga de acceder a la API.
-        WorkshopApiInterface apiInterface = WorkshopApi.buildInstance();
+        EventApiInterface apiInterface = EventApi.buildInstance();
 
-        // Llamada POST /workshops
-        apiInterface.createWorkshop(workshopRequest).enqueue(new Callback<Workshop>() {
+        // Llamada POST /events.
+        apiInterface.createEvent(eventRequest).enqueue(new Callback<Event>() {
             @Override
-            public void onResponse(Call<Workshop> call, Response<Workshop> response) {
+            public void onResponse(Call<Event> call, Response<Event> response) {
+
+                // Si la respuesta es correcta y viene un body, notificamos éxito al Presenter.
                 if (response.isSuccessful() && response.body() != null) {
-                    // Si la respuesta es correcta y viene un body, notificamos éxito al Presenter.
                     listener.onUpdateSuccess(response.body());
                 } else {
                     // Si no es successful, notificamos el error simple con el código HTTP.
@@ -70,10 +72,12 @@ public class WorkshopEditModel implements WorkshopEditContract.Model {
             }
 
             @Override
-            public void onFailure(Call<Workshop> call, Throwable throwable) {
+            public void onFailure(Call<Event> call, Throwable throwable) {
                 // Error de red / excepción.
                 listener.onUpdateError(throwable.getMessage());
             }
         });
     }
 }
+
+
