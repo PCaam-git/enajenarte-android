@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/edit_event_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edit_event_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ubicación"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edit_event_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha y hora (YYYY-MM-DDTHH:MM:SS) ej: 2026-02-21T10:30:00"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edit_event_expected_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Asistencia esperada"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/switch_event_public"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evento público" />
+
+        <EditText
+            android:id="@+id/edit_event_entry_fee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrada (ej: 10.5)"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edit_event_speaker_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SpeakerId"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/button_save_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar" />
+
+    </LinearLayout>
+
+</ScrollView>

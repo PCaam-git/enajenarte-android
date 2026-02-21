@@ -1,7 +1,7 @@
 package com.svalero.enajenarte.view;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +38,15 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
             return;
         }
 
+        findViewById(R.id.button_edit_event).setOnClickListener(view -> {
+            Intent intent = new Intent(this, EventEditActivity.class);
+            intent.putExtra("event_id", eventId);
+            startActivity(intent);
+        });
+
         setTitle("Detalle evento");
+
+        presenter.loadEvent(eventId);
     }
 
     @Override
