@@ -1,5 +1,7 @@
 package com.svalero.enajenarte.presenter;
 
+import android.content.Context;
+
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.model.WorkshopListModel;
@@ -12,7 +14,7 @@ public class WorkshopListPresenter implements WorkshopListContract.Presenter,
     private WorkshopListContract.View view;
 
     public WorkshopListPresenter(WorkshopListContract.View view) {
-        this.model = new WorkshopListModel();
+        this.model = new WorkshopListModel((Context) view);
         this.view = view;
     }
 
