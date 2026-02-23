@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.8.2'
     annotationProcessor 'androidx.room:room-compiler:2.8.2'
 
-    // Mapbox - Mapas (versión del profesor)
+    // Mapbox - Mapas
     implementation 'com.mapbox.maps:android:11.0.0'
 
     // Glide - Carga de imágenes
