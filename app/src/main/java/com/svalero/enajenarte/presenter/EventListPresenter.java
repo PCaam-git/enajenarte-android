@@ -1,5 +1,7 @@
 package com.svalero.enajenarte.presenter;
 
+import android.content.Context;
+
 import com.svalero.enajenarte.contract.EventListContract;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.model.EventListModel;
@@ -14,7 +16,7 @@ public class EventListPresenter implements EventListContract.Presenter,
     private final EventListContract.View view;
 
     public EventListPresenter(EventListContract.View view) {
-        this.model = new EventListModel();
+        this.model = new EventListModel((Context) view);
         this.view = view;
     }
 
