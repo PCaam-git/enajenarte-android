@@ -23,6 +23,9 @@ import java.util.List;
 
 public class WorkshopListActivity extends AppCompatActivity implements WorkshopListContract.View {
 
+    // Borrado delegado desde detail
+    private static final String EXTRA_DELETE_WORKSHOP_ID = "delete_workshop_id";
+
     private WorkshopAdapter workshopAdapter;
     private List<Workshop> workshopList;
     private WorkshopListPresenter presenter;
@@ -63,7 +66,28 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Cuando se da orden de borrado en detail, se hace aquí
+        handleDeleteFromIntent(getIntent());
+
         presenter.loadWorkshops(null, null, null);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    private void handleDeleteFromIntent(Intent intent) {
+        if (intent == null) return;
+
+        long idToDelete = intent.getLongExtra(EXTRA_DELETE_WORKSHOP_ID, -1);
+        if (idToDelete != -1) {
+            presenter.deleteWorkshop(idToDelete);
+            // Borrado de la pila
+            intent.removeExtra(EXTRA_DELETE_WORKSHOP_ID);
+        }
     }
 
     private void showDeleteDialog(Workshop workshop) {
@@ -80,7 +104,6 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
     // carga el menú de opciones para esta pantalla.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_workshop_list, menu);
         return true;
     }
@@ -88,7 +111,6 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
     // responde a las pulsaciones del menú. Cuando el usuario pulsa crear, se abre la pantalla de edición.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_create_workshop) {
             Intent intent = new Intent(this, WorkshopEditActivity.class);
             startActivity(intent);
