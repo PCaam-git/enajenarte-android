@@ -2,6 +2,8 @@ package com.svalero.enajenarte.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
 
         Button createButton = findViewById(R.id.button_create_workshop);
         createButton.setOnClickListener(view -> {
+            // Navegación a la pantalla de creación/edición
             Intent intent = new Intent(this, WorkshopEditActivity.class);
             startActivity(intent);
         });
@@ -71,6 +74,30 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         .setNegativeButton("Cancelar", null)
         .show();
     }
+
+    // ACTIONBAR
+
+    // carga el menú de opciones para esta pantalla.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_workshop_list, menu);
+        return true;
+    }
+
+    // responde a las pulsaciones del menú. Cuando el usuario pulsa crear, se abre la pantalla de edición.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_create_workshop) {
+            Intent intent = new Intent(this, WorkshopEditActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // CONTRACT VIEW
     @Override
     public void showWorkshops(List<Workshop> workshops) {
         workshopList.clear();
