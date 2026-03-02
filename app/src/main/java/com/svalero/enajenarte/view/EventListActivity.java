@@ -24,6 +24,8 @@ import java.util.List;
 
 public class EventListActivity extends AppCompatActivity implements EventListContract.View {
 
+    // Borrado delegado desde EventDetailActivity
+    private static final String EXTRA_DELETE_EVENT_ID = "delete_event_id";
     private EventAdapter eventAdapter;
     private List<Event> eventList;
     private EventListPresenter presenter;
@@ -63,7 +65,30 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Si en Detalle se selecciona borrado, se borra en la lista ejecutándolo aquí
+        handleDeleteFromIntent(getIntent());
         presenter.loadEvents(null, null, null); // sin filtros
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+    }
+
+    private void handleDeleteFromIntent(Intent intent) {
+        if (intent == null) return;
+
+        long idToDelete = intent.getLongExtra(EXTRA_DELETE_EVENT_ID, -1);
+        if (idToDelete != -1) {
+            // Reutilizamos el borrado existente desde EventDetailActivity
+            presenter.deleteEvent(idToDelete);
+
+            // Esto evita repetir el borrado si onResume se ejecuta otra vez
+            intent.removeExtra(EXTRA_DELETE_EVENT_ID);
+        }
     }
 
     private void showDeleteDialog(Event event) {
@@ -80,7 +105,6 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
     // Carga el menú específico de la lista de eventos
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_event_list, menu);
         return true;
     }

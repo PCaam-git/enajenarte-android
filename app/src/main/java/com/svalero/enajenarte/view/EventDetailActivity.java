@@ -1,7 +1,10 @@
 package com.svalero.enajenarte.view;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,9 @@ import com.svalero.enajenarte.presenter.EventDetailPresenter;
 import com.svalero.enajenarte.util.DateUtil;
 
 public class EventDetailActivity extends AppCompatActivity implements EventDetailContract.View {
+
+    // La opción borrar se aplicará en el listado de eventos, no en el detalle.
+    private static final String EXTRA_DELETE_EVENT_ID = "delete_event_id";
 
     private EventDetailPresenter presenter;
     private long eventId;
@@ -38,11 +44,7 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
             return;
         }
 
-        findViewById(R.id.button_edit_event).setOnClickListener(view -> {
-            Intent intent = new Intent(this, EventEditActivity.class);
-            intent.putExtra("event_id", eventId);
-            startActivity(intent);
-        });
+        findViewById(R.id.button_edit_event).setOnClickListener(view -> openEdit());
 
         setTitle("Detalle evento");
 
@@ -55,6 +57,54 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         presenter.loadEvent(eventId);
     }
 
+    private void openEdit() {
+        Intent intent = new Intent(this, EventEditActivity.class);
+        intent.putExtra("event_id", eventId);
+        startActivity(intent);
+    }
+
+    private void confirmDelete() {
+        new AlertDialog.Builder(this)
+                .setTitle("Eliminar evento")
+                .setMessage("¿Seguro que quieres eliminar este evento?")
+                .setPositiveButton("Eliminar", (dialog, which) -> redirectToListForDelete())
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    private void redirectToListForDelete() {
+        Intent intent = new Intent(this, EventListActivity.class);
+        intent.putExtra(EXTRA_DELETE_EVENT_ID, eventId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    // ACTIONBAR
+
+    // Carga el menú del detalle del evento
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_event_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit_event) {
+            openEdit();
+            return true;
+        } else if (id == R.id.action_delete_event) {
+            confirmDelete();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // CONTRACT VIEW
     @Override
     public void showEvent(Event event) {
         textTitle.setText(event.getTitle());
