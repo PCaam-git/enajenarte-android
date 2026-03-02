@@ -38,14 +38,6 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         presenter = new WorkshopListPresenter(this);
         workshopList = new ArrayList<>();
 
-        Button createButton = findViewById(R.id.button_create_workshop);
-        createButton.setOnClickListener(view -> {
-            // Navegación a la pantalla de creación/edición
-            Intent intent = new Intent(this, WorkshopEditActivity.class);
-            startActivity(intent);
-        });
-
-
         RecyclerView recyclerView = findViewById(R.id.workshop_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -108,7 +100,7 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
         return true;
     }
 
-    // responde a las pulsaciones del menú. Cuando el usuario pulsa crear, se abre la pantalla de edición.
+    // Cuando el usuario pulsa crear, se abre la pantalla de edición.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create_workshop) {
