@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,6 +20,8 @@ import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
 
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
+
+    // Borrado delegado desde WorkshopListActivity
     private static final String EXTRA_DELETE_WORKSHOP_ID = "delete_workshop_id";
 
     private WorkshopDetailPresenter presenter;
@@ -48,8 +49,6 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
 
         workshopId = getIntent().getLongExtra("workshop_id", -1);
         presenter = new WorkshopDetailPresenter(this);
-
-        findViewById(R.id.button_edit_workshop).setOnClickListener(view -> openEdit());
 
         if (nameTextView == null) {
             Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
@@ -105,12 +104,11 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         finish();
     }
 
-    // ===== MENÚ DE OPCIONES (ActionBar) =====
+    // ACTIONBAR
 
     // Carga el menú del detalle del workshop.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_workshop_detail, menu);
         return true;
     }

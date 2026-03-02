@@ -6,11 +6,6 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-    <Button
-        android:id="@+id/button_create_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Crear evento" />
     <TextView
         android:id="@+id/event_title"
         android:layout_width="match_parent"

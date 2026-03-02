@@ -44,8 +44,6 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
             return;
         }
 
-        findViewById(R.id.button_edit_event).setOnClickListener(view -> openEdit());
-
         setTitle("Detalle evento");
 
         presenter.loadEvent(eventId);

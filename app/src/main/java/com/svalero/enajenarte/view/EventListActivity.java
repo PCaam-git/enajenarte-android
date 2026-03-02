@@ -39,12 +39,6 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
         presenter = new EventListPresenter(this);
         eventList = new ArrayList<>();
 
-        Button createButton = findViewById(R.id.button_create_event);
-        createButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, EventEditActivity.class);
-            startActivity(intent);
-        });
-
         RecyclerView recyclerView = findViewById(R.id.event_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
