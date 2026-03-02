@@ -63,4 +63,9 @@
     <!-- Welcome -->
     <string name="welcome_message">Welcome to Enajenarte</string>
     <string name="welcome_subtitle">Explore our cultural workshops</string>
+
+    <string name="menu_create">Create</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+
 </resources>

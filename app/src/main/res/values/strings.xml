@@ -63,4 +63,9 @@
     <!-- Bienvenida -->
     <string name="welcome_message">Bienvenida a Enajenarte</string>
     <string name="welcome_subtitle">Explora nuestros talleres culturales</string>
+
+    <string name="menu_create">Crear</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_delete">Eliminar</string>
+
 </resources>
