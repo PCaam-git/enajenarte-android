@@ -16,6 +16,8 @@ public class DatabaseUtil {
                             "enajenarte_db"
                     )
                     .allowMainThreadQueries()
+                    // Si cambiar la versión de la bbdd y no hay migración, la borra y recrea
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return db;
