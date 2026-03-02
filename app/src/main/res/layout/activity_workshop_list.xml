@@ -6,12 +6,6 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-    <!-- Botón en la parte superior -->
-    <Button
-        android:id="@+id/button_create_workshop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Crear taller" />
 
     <!-- Lista ocupa el resto de pantalla -->
     <androidx.recyclerview.widget.RecyclerView

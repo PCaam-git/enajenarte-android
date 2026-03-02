@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.contract.WorkshopDetailContract;
@@ -17,6 +20,9 @@ import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
 
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
+
+    // Borrado delegado desde WorkshopListActivity
+    private static final String EXTRA_DELETE_WORKSHOP_ID = "delete_workshop_id";
 
     private WorkshopDetailPresenter presenter;
     private long workshopId;
@@ -27,7 +33,6 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     private TextView priceTextView;
     private TextView isOnlineTextView;
     private TextView speakerIdTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +47,8 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         isOnlineTextView = findViewById(R.id.text_workshop_is_online);
         speakerIdTextView = findViewById(R.id.text_workshop_speaker_id);
 
-
         workshopId = getIntent().getLongExtra("workshop_id", -1);
         presenter = new WorkshopDetailPresenter(this);
-
-        findViewById(R.id.button_edit_workshop).setOnClickListener(view -> {
-            Intent intent = new Intent(this, WorkshopEditActivity.class);
-            intent.putExtra("workshop_id", workshopId);
-            startActivity(intent);
-        });
-
 
         if (nameTextView == null) {
             Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
@@ -76,6 +73,61 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         }
     }
 
+    // Se abre la pantalla de edición
+    private void openEdit() {
+        Intent intent = new Intent(this, WorkshopEditActivity.class);
+        intent.putExtra("workshop_id", workshopId);
+        startActivity(intent);
+    }
+
+    // Confirmando la eliminación evitamos borrados accidentales
+    private void confirmDelete() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Eliminar taller")
+                .setMessage("¿Seguro que quieres eliminar este taller?")
+                .setPositiveButton("Eliminar", (dialog, which) -> redirectToListForDelete())
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    // Si se pulsa Delete, se vuelve al listado y se borra el taller.
+    private void redirectToListForDelete() {
+
+        Intent intent = new Intent(this, WorkshopListActivity.class);
+        intent.putExtra(EXTRA_DELETE_WORKSHOP_ID, workshopId);
+
+        // Reutiliza la instancia del listado si ya está en la pila
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        startActivity(intent);
+        finish();
+    }
+
+    // ACTIONBAR
+
+    // Carga el menú del detalle del workshop.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_workshop_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_workshop) {
+            openEdit();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_delete_workshop) {
+            confirmDelete();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void showWorkshop(Workshop workshop) {
         Toast.makeText(this, workshop.getName(), Toast.LENGTH_SHORT).show();
@@ -94,6 +146,5 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
     }
 }
