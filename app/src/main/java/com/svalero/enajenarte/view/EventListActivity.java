@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,6 +75,30 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
                 .show();
     }
 
+    //  ACTIONBAR
+
+    // Carga el menú específico de la lista de eventos
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_event_list, menu);
+        return true;
+    }
+
+    // Cuando el usuario pulsa "Crear", se abre la pantalla de edición
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_create_event) {
+            Intent intent = new Intent(this, EventEditActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // CONTRACT VIEW
     @Override
     public void showEvents(List<Event> events) {
         eventList.clear();
