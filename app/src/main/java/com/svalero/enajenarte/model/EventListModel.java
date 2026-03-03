@@ -24,7 +24,6 @@ public class EventListModel implements EventListContract.Model {
         this.context = context;
     }
 
-
     @Override
     public void loadEvents(String title, String location, Boolean isPublic, OnLoadListener listener) {
 
@@ -48,19 +47,18 @@ public class EventListModel implements EventListContract.Model {
 
                     listener.onLoadSuccess(events);
 
-                    } else {
+                } else {
                     listener.onLoadError("Error HTTP: " + response.code());
-
                 }
             }
 
             @Override
             public void onFailure(Call<List<Event>> call, Throwable throwable) {
 
-                // Intentar Room
+                // Intentar leer de Room
                 List<Event> localEvents = getEventsFromDatabase();
 
-                if(!localEvents.isEmpty()) {
+                if (!localEvents.isEmpty()) {
                     listener.onLoadSuccess(localEvents);
                 } else {
                     listener.onLoadError(throwable.getMessage());
@@ -84,7 +82,11 @@ public class EventListModel implements EventListContract.Model {
 
                     listener.onDeleteSuccess();
                 } else {
-                    listener.onDeleteError("Error HTTP: " + response.code());
+                    if (response.code() == 500) {
+                        listener.onDeleteError("No se puede eliminar el evento porque tiene registros asociados");
+                    } else {
+                        listener.onDeleteError("Error HTTP: " + response.code());
+                    }
                 }
             }
 
@@ -99,6 +101,9 @@ public class EventListModel implements EventListContract.Model {
 
     private void saveEventsToDatabase(List<Event> events) {
 
+        // Guardar en Room, conservando lo que ya había para no perder la imagen anterior.
+        List<EventEntity> oldEventEntities = DatabaseUtil.getDb(context).eventDao().findAll();
+
         List<EventEntity> entities = new ArrayList<>();
 
         for (Event event : events) {
@@ -111,6 +116,17 @@ public class EventListModel implements EventListContract.Model {
                     event.isPublic(),
                     event.getSpeakerId()
             );
+
+            // Conservar la imagen anterior si existía
+            String previousImageUri = null;
+            for (EventEntity old : oldEventEntities) {
+                if (old.getId() == event.getId()) {
+                    previousImageUri = old.getImageUri();
+                    break;
+                }
+            }
+            entity.setImageUri(previousImageUri);
+
             entities.add(entity);
         }
 
