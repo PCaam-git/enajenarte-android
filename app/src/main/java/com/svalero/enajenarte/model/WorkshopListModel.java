@@ -37,7 +37,6 @@ public class WorkshopListModel implements WorkshopListContract.Model {
             public void onResponse(Call<List<Workshop>> call, Response<List<Workshop>> response) {
 
                 if (response.isSuccessful()) {
-
                     List<Workshop> workshops = response.body();
 
                     // Si backend devuelve 204 -> body null
@@ -45,7 +44,7 @@ public class WorkshopListModel implements WorkshopListContract.Model {
                         workshops = new ArrayList<>();
                     }
 
-                    // NUEVO: guardar en Room
+                    // guardar en Room
                     saveWorkshopsToDatabase(workshops);
 
                     listener.onLoadSuccess(workshops);
@@ -58,13 +57,12 @@ public class WorkshopListModel implements WorkshopListContract.Model {
             @Override
             public void onFailure(Call<List<Workshop>> call, Throwable throwable) {
 
-                // NUEVO: intentar leer de Room
+                // intentar leer de Room
                 List<Workshop> localWorkshops = getWorkshopsFromDatabase();
 
                 if (!localWorkshops.isEmpty()) {
                     listener.onLoadSuccess(localWorkshops);
                 } else {
-                    // Se mantiene tu mensaje original
                     listener.onLoadError(throwable.getMessage());
                 }
             }
@@ -73,16 +71,19 @@ public class WorkshopListModel implements WorkshopListContract.Model {
 
     @Override
     public void deleteWorkshop(long id, OnDeleteListener listener) {
+
         WorkshopApiInterface api = WorkshopApi.buildInstance();
 
         api.deleteWorkshop(id).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+
+                    // Eliminar también de Room
                     deleteWorkshopFromDatabase(id);
+
                     listener.onDeleteSuccess();
                 } else {
-
                     if (response.code() == 500) {
                         listener.onDeleteError("No se puede eliminar el taller porque tiene registros asociados");
                     } else {
@@ -102,6 +103,9 @@ public class WorkshopListModel implements WorkshopListContract.Model {
 
     private void saveWorkshopsToDatabase(List<Workshop> workshops) {
 
+        // Guardar en Room, conservando lo que ya había para no perder la imagen anterior
+        List<WorkshopEntity> oldWorkshopEntities = DatabaseUtil.getDb(context).workshopDao().findAll();
+
         List<WorkshopEntity> entities = new ArrayList<>();
 
         for (Workshop workshop : workshops) {
@@ -116,6 +120,17 @@ public class WorkshopListModel implements WorkshopListContract.Model {
                     workshop.isOnline(),
                     workshop.getSpeakerId()
             );
+
+            // Conservar la imagen anterior si ya existía
+            String previousImageuri = null;
+            for (WorkshopEntity old : oldWorkshopEntities) {
+                if (old.getId() == workshop.getId()) {
+                    previousImageuri = old.getImageUri();
+                    break;
+                }
+            }
+            entity.setImageUri(previousImageuri);
+            
             entities.add(entity);
         }
 
