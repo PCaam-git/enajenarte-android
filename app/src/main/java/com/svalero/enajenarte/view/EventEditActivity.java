@@ -2,11 +2,17 @@ package com.svalero.enajenarte.view;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.net.Uri;
+import android.content.Intent;
 
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +27,9 @@ import com.svalero.enajenarte.contract.EventEditContract;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.domain.request.EventRequest;
 import com.svalero.enajenarte.presenter.EventEditPresenter;
+import com.svalero.enajenarte.db.DatabaseUtil;
+import com.svalero.enajenarte.db.entity.EventEntity;
+import com.svalero.enajenarte.db.dao.EventDao;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +46,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     private Switch switchPublic;
     private EditText editEntryFee;
     private EditText editSpeakerId;
+    private String imageUri;
+    private ImageView imagePreview;
     private Button buttonSave;
 
     private long eventId;
@@ -44,14 +55,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_event_edit);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        imagePreview = findViewById(R.id.image_event_preview);
 
         presenter = new EventEditPresenter(this);
 
@@ -81,6 +86,25 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         buttonSave.setOnClickListener(v -> trySave());
     }
 
+    private final ActivityResultLauncher<Intent> galleryLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            if (uri != null) {
+
+                                // Guardar permiso de lectura para poder usar esta Uri más adelante (Room + Detail)
+                                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+
+                                imagePreview.setImageURI(uri);
+                                imageUri = uri.toString();
+                            }
+                        }
+                    }
+            );
+
     private void loadEvent(long id) {
         if (id == -1) return; // modo crear, no tiene que precargar
 
@@ -104,7 +128,6 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             }
         });
     }
-
     private void fillForm(Event event) {
         editTitle.setText(event.getTitle());
         editLocation.setText(event.getLocation());
@@ -117,10 +140,18 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         switchPublic.setChecked(event.isPublic());
         editSpeakerId.setText(String.valueOf(event.getSpeakerId()));
 
-        // IMPORTANTE:
+
         // expectedAttendance NO está en Event (salida), solo en EventRequest (entrada).
-        // No se precargan datos, el admin deberá introducirlos manualmente
+        // No se precargan datos, el admin debe introducirlos manualmente
     }
+
+    public void selectImage(View view) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        galleryLauncher.launch(intent);
+    }
+
 
     private void trySave() {
         String title = editTitle.getText().toString().trim();
@@ -192,6 +223,40 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                 })
                 .setNegativeButton("Cancelar", null)
                 .show();
+    }
+
+    @Override
+    public void closeAfterUpdate(Event event) {
+
+        // Se guarda en Room la Uri asociada a este evento.
+        // La API no guarda imágenes, el almacenamiento es solo local.
+        saveImageUriInRoom(event);
+
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void saveImageUriInRoom(Event event) {
+
+        // Si no se ha seleccionado imagen al editar, no sobrescribimos. Esto permite mantener una imagen antigua al editar
+        if (imageUri == null || imageUri.isEmpty()) {
+            return;
+        }
+
+        // Creamos/actualizamos el registro local de Room con la imageUri.
+        EventEntity eventEntity = new EventEntity();
+
+        eventEntity.setId(event.getId());
+        eventEntity.setTitle(event.getTitle());
+        eventEntity.setLocation(event.getLocation());
+        eventEntity.setEventDate(event.getEventDate());
+        eventEntity.setEntryFee(event.getEntryFee());
+        eventEntity.setPublic(event.isPublic());
+        eventEntity.setSpeakerId(event.getSpeakerId());
+
+        eventEntity.setImageUri(imageUri);
+
+        DatabaseUtil.getDb(this).eventDao().insert(eventEntity);
     }
 
     @Override

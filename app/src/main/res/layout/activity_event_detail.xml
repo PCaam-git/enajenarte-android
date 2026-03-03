@@ -20,6 +20,14 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
+        <!-- UBICACIÓN -->
+        <TextView
+            android:id="@+id/text_event_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="(ubicación)" />
+
         <!-- FECHA -->
         <TextView
             android:id="@+id/text_event_date"
@@ -27,6 +35,32 @@
             android:layout_height="wrap_content"
             android:text="(Fecha)"
             android:layout_marginTop="8dp" />
+
+        <!-- Precio entrada -->
+        <TextView
+            android:id="@+id/text_event_entry_fee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="(Precio entrada)" />
+
+         <!-- PÚBLICO -->
+         <TextView
+            android:id="@+id/text_event_public"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="(Público)" />
+
+        <!-- No se muestra placeholder, no se usa srcCompat.
+        Visibility="gone" para que no ocupe espacio si no hay imagen -->
+        <ImageView
+            android:id="@+id/image_event_detail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>
