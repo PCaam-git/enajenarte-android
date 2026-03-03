@@ -17,6 +17,9 @@ public interface EventDao {
     @Query("SELECT * FROM events")
     List<EventEntity> findAll();
 
+    @Query("SELECT * FROM events WHERE id = :id LIMIT 1")
+    EventEntity findById(long id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EventEntity event);
 

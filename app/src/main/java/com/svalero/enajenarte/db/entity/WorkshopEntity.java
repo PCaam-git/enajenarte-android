@@ -17,12 +17,13 @@ public class WorkshopEntity {
     private float price;
     private int maxCapacity;
     private boolean isOnline;
+    private String imageUri;
     private long speakerId;
 
     // Constructor vacío obligatorio para Room
     public WorkshopEntity() {}
 
-    // Constructor completo
+    // Constructor completo SIN imageUri -> usado en WorkshopListModel
     public WorkshopEntity(long id, String name, String description, String startDate,
                           int durationMinutes, float price, int maxCapacity,
                           boolean isOnline, long speakerId) {
@@ -36,6 +37,24 @@ public class WorkshopEntity {
         this.isOnline = isOnline;
         this.speakerId = speakerId;
     }
+
+    // Constructor CON imageUri -> usado en WorkshopEditActivity
+    public WorkshopEntity(long id, String name, String description, String startDate,
+                          int durationMinutes, float price, int maxCapacity,
+                          boolean isOnline, String imageUri,long speakerId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.durationMinutes = durationMinutes;
+        this.price = price;
+        this.maxCapacity = maxCapacity;
+        this.isOnline = isOnline;
+        this.imageUri = imageUri;
+        this.speakerId = speakerId;
+    }
+
+
 
     // Getters y Setters (Room los necesita)
     public long getId() { return id; }
@@ -61,6 +80,10 @@ public class WorkshopEntity {
 
     public boolean isOnline() { return isOnline; }
     public void setOnline(boolean online) { isOnline = online; }
+
+    public String getImageUri() { return imageUri; }
+    public void setImageUri(String imageUri) { this.imageUri = imageUri; }
+
 
     public long getSpeakerId() { return speakerId; }
     public void setSpeakerId(long speakerId) { this.speakerId = speakerId; }

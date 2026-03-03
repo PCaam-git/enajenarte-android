@@ -14,10 +14,12 @@ public class EventEntity {
     private String eventDate;
     private float entryFee;
     private boolean isPublic;
+    private String imageUri;
     private long speakerId;
 
-    public EventEntity() { }
+    public EventEntity() {}
 
+    // Constructor SIN imageUri (7 parámetros) -> el que usa EventListModel
     public EventEntity(long id, String title, String location, String eventDate,
                        float entryFee, boolean isPublic, long speakerId) {
         this.id = id;
@@ -28,6 +30,22 @@ public class EventEntity {
         this.isPublic = isPublic;
         this.speakerId = speakerId;
     }
+
+    // Constructor CON imageUri (8 parámetros) -> por compatibilidad.
+
+    public EventEntity(long id, String title, String location, String eventDate,
+                       float entryFee, boolean isPublic, String imageUri, long speakerId) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.eventDate = eventDate;
+        this.entryFee = entryFee;
+        this.isPublic = isPublic;
+        this.imageUri = imageUri;
+        this.speakerId = speakerId;
+    }
+
+    // Getters y Setters (Room los necesita)
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
@@ -46,6 +64,9 @@ public class EventEntity {
 
     public boolean isPublic() { return isPublic; }
     public void setPublic(boolean aPublic) { isPublic = aPublic; }
+
+    public String getImageUri() { return imageUri; }
+    public void setImageUri(String imageUri) { this.imageUri = imageUri; }
 
     public long getSpeakerId() { return speakerId; }
     public void setSpeakerId(long speakerId) { this.speakerId = speakerId; }
