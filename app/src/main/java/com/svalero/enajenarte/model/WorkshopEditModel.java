@@ -24,6 +24,7 @@ public class WorkshopEditModel implements WorkshopEditContract.Model {
         WorkkshopApiInterface.updateWorkshop(id, workshopRequest).enqueue(new Callback<Workshop>() {
             @Override
             public void onResponse(Call<Workshop> call, Response<Workshop> response) {
+
                 // Si la respuesta es correcta y viene un body, notificamos éxito al Presenter.
                 if (response.isSuccessful() && response.body() != null) {
                     listener.onUpdateSuccess(response.body());
