@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- TÍTULO (valor) -->
+        <!-- TÍTULO -->
         <TextView
             android:id="@+id/text_workshop_name"
             android:layout_width="match_parent"
@@ -20,80 +20,63 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-        <!-- DESCRIPCIÓN (valor) -->
+        <!-- DESCRIPCIÓN -->
         <TextView
             android:id="@+id/text_workshop_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(descripción)"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="(descripción)" />
 
-        <!-- BLOQUE: pares Label + Value -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fecha de inicio:"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
-
+        <!-- FECHA DE INICIO -->
         <TextView
             android:id="@+id/text_workshop_start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(startDate)" />
+            android:layout_marginTop="8dp"
+            android:text="(Fecha de inicio)" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Duración (minutos):"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
-
+        <!-- DURACIÓN -->
         <TextView
             android:id="@+id/text_workshop_duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(durationMinutes)" />
+            android:layout_marginTop="8dp"
+            android:text="(Duración)" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Precio:"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
-
+        <!-- PRECIO -->
         <TextView
             android:id="@+id/text_workshop_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(price)" />
+            android:layout_marginTop="8dp"
+            android:text="(Precio)" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Online:"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
-
+        <!-- ONLINE -->
         <TextView
             android:id="@+id/text_workshop_is_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(isOnline)" />
+            android:layout_marginTop="8dp"
+            android:text="(Online)" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Speaker ID:"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
-
+        <!-- SPEAKER ID -->
         <TextView
             android:id="@+id/text_workshop_speaker_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(speakerId)" />
+            android:layout_marginTop="8dp"
+            android:text="(Speaker ID)" />
 
+        <!-- No se muestra placeholder, no se usa srcCompat.
+        Visibility="gone" para que no ocupe espacio si no hay imagen -->
+        <ImageView
+            android:id="@+id/image_workshop_detail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>
