@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -58,6 +59,22 @@
             android:layout_height="wrap_content"
             android:hint="SpeakerId"
             android:inputType="number" />
+
+        <ImageView
+            android:id="@+id/image_event_preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <Button
+            android:id="@+id/button_select_event_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar imagen"
+            android:onClick="selectImage"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/button_save_event"

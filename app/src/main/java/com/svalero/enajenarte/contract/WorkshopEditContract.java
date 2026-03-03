@@ -4,6 +4,7 @@ import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.domain.request.WorkshopRequest;
 
 public interface WorkshopEditContract {
+
     public interface Model {
         interface OnUpdateListener {
             void onUpdateSuccess(Workshop workshop);
@@ -17,6 +18,8 @@ public interface WorkshopEditContract {
         void showMessage(String message);
         void showError(String message);
         void closeAfterUpdate();
+
+        void closeAfterUpdate(Workshop workshop);
 }
     public interface Presenter {
         void updateWorkshop(long id, WorkshopRequest workshopRequest);

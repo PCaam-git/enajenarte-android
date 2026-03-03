@@ -19,6 +19,7 @@ public interface EventEditContract {
         void showMessage(String message);
         void showError(String message);
         void closeAfterUpdate();
+        void closeAfterUpdate(Event event);
     }
 
     public interface Presenter {

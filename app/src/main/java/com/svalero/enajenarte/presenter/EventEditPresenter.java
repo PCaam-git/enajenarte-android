@@ -23,13 +23,14 @@ public class EventEditPresenter implements EventEditContract.Presenter,
 
     @Override
     public void createEvent(EventRequest eventRequest) {
+        view.showMessage("Evento creado");
         model.createEvent(eventRequest, this);
     }
 
     @Override
     public void onUpdateSuccess(Event event) {
         view.showMessage("Evento actualizado");
-        view.closeAfterUpdate();
+        view.closeAfterUpdate(event);
     }
 
     @Override
