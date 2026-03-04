@@ -19,6 +19,7 @@ import com.svalero.enajenarte.db.DatabaseUtil;
 import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.presenter.EventDetailPresenter;
+import com.svalero.enajenarte.view.PreferencesActivity;
 
 import com.svalero.enajenarte.util.DateUtil;
 
@@ -117,6 +118,10 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
             return true;
         } else if (id == R.id.action_delete_event) {
             confirmDelete();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
             return true;
         }
 

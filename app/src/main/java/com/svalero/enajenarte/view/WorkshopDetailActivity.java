@@ -24,6 +24,7 @@ import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
+import com.svalero.enajenarte.view.PreferencesActivity;
 
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
 
@@ -134,6 +135,10 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
             return true;
         } else if (id == R.id.action_delete_workshop) {
             confirmDelete();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
             return true;
         }
 
