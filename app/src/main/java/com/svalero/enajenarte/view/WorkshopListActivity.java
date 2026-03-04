@@ -17,6 +17,7 @@ import com.svalero.enajenarte.adapter.WorkshopAdapter;
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopListPresenter;
+import com.svalero.enajenarte.view.PreferencesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,12 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
             Intent intent = new Intent(this, WorkshopEditActivity.class);
             startActivity(intent);
             return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

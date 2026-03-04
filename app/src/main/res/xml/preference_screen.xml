@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="show_images"
+        android:title="@string/pref_show_images"
+        android:defaultValue="true" />
+
+    <SwitchPreferenceCompat
+        android:key="confirm_delete"
+        android:title="@string/pref_confirm_delete"
+        android:defaultValue="true" />
+
+    <SwitchPreferenceCompat
+        android:key="large_text"
+        android:title="@string/pref_large_text"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

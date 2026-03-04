@@ -68,4 +68,10 @@
     <string name="menu_edit">Editar</string>
     <string name="menu_delete">Eliminar</string>
 
+    <!-- Preferencias -->
+    <string name="preferences_title">Preferencias</string>
+    <string name="pref_show_images">Mostrar imágenes en listados</string>
+    <string name="pref_confirm_delete">Confirmar antes de eliminar</string>
+    <string name="pref_large_text">Texto grande</string>
+
 </resources>

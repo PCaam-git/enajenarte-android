@@ -18,6 +18,7 @@ import com.svalero.enajenarte.contract.EventListContract;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.EventListPresenter;
+import com.svalero.enajenarte.view.PreferencesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,10 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
 
         if (item.getItemId() == R.id.action_create_event) {
             Intent intent = new Intent(this, EventEditActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
             startActivity(intent);
             return true;
         }
