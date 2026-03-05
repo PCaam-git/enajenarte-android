@@ -1,12 +1,14 @@
 package com.svalero.enajenarte.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.enajenarte.R;
@@ -52,6 +54,18 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
         holder.workshopDateTextView.setText(workshop.getStartDate() != null
                 ? workshop.getStartDate().toString()
                 : "");
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(holder.itemView.getContext());
+
+        boolean largeText = preferences.getBoolean("large_text", false);
+
+        if (largeText) {
+            holder.workshopNameTextView.setTextSize(20);
+            holder.workshopDateTextView.setTextSize(16);
+        } else {
+            holder.workshopNameTextView.setTextSize(16);
+            holder.workshopDateTextView.setTextSize(14);
+        }
 
         holder.itemView.setOnClickListener(view ->
                 clickListener.onWorkshopClick(workshop)
@@ -62,6 +76,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
                 return true;
 
         });
+
     }
 
     @Override
