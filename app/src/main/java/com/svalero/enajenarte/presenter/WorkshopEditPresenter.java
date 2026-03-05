@@ -10,6 +10,7 @@ public class WorkshopEditPresenter implements WorkshopEditContract.Presenter,
 
     private final WorkshopEditContract.Model model;
     private final WorkshopEditContract.View view;
+    private String successMessage;
 
     public WorkshopEditPresenter(WorkshopEditContract.View view) {
         this.model = new WorkshopEditModel();
@@ -18,18 +19,19 @@ public class WorkshopEditPresenter implements WorkshopEditContract.Presenter,
 
     @Override
     public void updateWorkshop(long id, WorkshopRequest workshopRequest) {
+        successMessage = "Taller actualizado";
         model.updateWorkshop(id, workshopRequest, this);
     }
 
     @Override
     public void createWorkshop(WorkshopRequest workshopRequest) {
-        view.showMessage("Taller creado");
+        successMessage = "Taller creado";
         model.createWorkshop(workshopRequest, this);
     }
 
     @Override
     public void onUpdateSuccess(Workshop workshop) {
-        view.showMessage("Taller actualizado");
+        view.showMessage(successMessage);
         view.closeAfterUpdate(workshop);
     }
 
