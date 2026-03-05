@@ -10,6 +10,7 @@ public class EventEditPresenter implements EventEditContract.Presenter,
 
     private final EventEditContract.Model model;
     private final EventEditContract.View view;
+    private String successMessage;
 
     public EventEditPresenter(EventEditContract.View view) {
         this.model = new EventEditModel();
@@ -18,18 +19,19 @@ public class EventEditPresenter implements EventEditContract.Presenter,
 
     @Override
     public void updateEvent(long id, EventRequest eventRequest) {
+        successMessage = "Evento actualizado";
         model.updateEvent(id, eventRequest, this);
     }
 
     @Override
     public void createEvent(EventRequest eventRequest) {
-        view.showMessage("Evento creado");
+        successMessage = "Evento creado";
         model.createEvent(eventRequest, this);
     }
 
     @Override
     public void onUpdateSuccess(Event event) {
-        view.showMessage("Evento actualizado");
+        view.showMessage(successMessage);
         view.closeAfterUpdate(event);
     }
 
