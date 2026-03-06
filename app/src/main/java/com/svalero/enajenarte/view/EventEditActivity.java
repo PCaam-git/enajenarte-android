@@ -2,6 +2,7 @@ package com.svalero.enajenarte.view;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +17,22 @@ import android.view.MenuItem;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.gestures.GesturesPlugin;
+import com.mapbox.maps.plugin.gestures.GesturesUtils;
+import com.mapbox.maps.plugin.gestures.OnMapClickListener;
+import com.svalero.enajenarte.util.MapUtils;
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.api.EventApi;
 import com.svalero.enajenarte.api.EventApiInterface;
@@ -35,16 +45,18 @@ import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.dao.EventDao;
 import com.svalero.enajenarte.util.*;
 
-import com.mapbox.maps.MapView;
-import com.mapbox.maps.Style;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventEditActivity extends AppCompatActivity implements EventEditContract.View {
+public class EventEditActivity extends AppCompatActivity implements EventEditContract.View, OnMapClickListener {
 
     private EventEditPresenter presenter;
+    private GesturesPlugin gesturesPlugin;
+    private Point currentPoint;
+    private PointAnnotationManager pointAnnotationManager;
 
     private EditText editTitle;
     private EditText editLocation;
@@ -55,9 +67,30 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     private EditText editSpeakerId;
     private String imageUri;
     private ImageView imagePreview;
-    private Button buttonSave;
     private MapView mapView;
+    private Double latitude;
+    private Double longitude;
     private long eventId;
+    private Button buttonSave;
+    private Button buttonCancel;
+
+    private final ActivityResultLauncher<Intent> galleryLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            if (uri != null) {
+
+                                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+
+                                imagePreview.setImageURI(uri);
+                                imageUri = uri.toString();
+                            }
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +103,29 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         // Views
         editTitle = findViewById(R.id.edit_event_title);
         editLocation = findViewById(R.id.edit_event_location);
+
         editEventDate = findViewById(R.id.edit_event_date);
         editEventDate.setHint("dd/MM/yyyy HH:mm");
+
         editExpectedAttendance = findViewById(R.id.edit_event_expected_attendance);
         switchPublic = findViewById(R.id.switch_event_public);
         editEntryFee = findViewById(R.id.edit_event_entry_fee);
         editSpeakerId = findViewById(R.id.edit_event_speaker_id);
         buttonSave = findViewById(R.id.button_save_event);
+        buttonCancel = findViewById(R.id.button_cancel_event);
+
+
         mapView = findViewById(R.id.map_event_location);
-        initializeMapView();
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+        mapView.getMapboxMap().setCamera(
+                new CameraOptions.Builder()
+                        .center(Point.fromLngLat(-0.8891, 41.6488))
+                        .zoom(14.0)
+                        .build()
+        );
+
+        initializeGesturesPlugin();
+        pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
         // Get id
         eventId = getIntent().getLongExtra("event_id", -1);
@@ -98,30 +145,33 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
 
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
+        buttonCancel.setOnClickListener(v -> finish());
     }
 
-    private void initializeMapView() {
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+    private void initializeGesturesPlugin() {
+        gesturesPlugin = GesturesUtils.getGestures(mapView);
+        gesturesPlugin.addOnMapClickListener(this);
     }
 
-    private final ActivityResultLauncher<Intent> galleryLauncher =
-            registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            Uri uri = result.getData().getData();
-                            if (uri != null) {
+    @Override
+    public boolean onMapClick(@NonNull Point point) {
+        pointAnnotationManager.deleteAll();
+        currentPoint = point;
+        latitude = point.latitude();
+        longitude = point.longitude();
 
-                                // Guardar permiso de lectura para poder usar esta Uri más adelante (Room + Detail)
-                                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+        showMessage("CLICK -> Lat: " + latitude + " Lon: " + longitude);
+        MapUtils.addMarker(this, pointAnnotationManager, point);
 
-                                imagePreview.setImageURI(uri);
-                                imageUri = uri.toString();
-                            }
-                        }
-                    }
-            );
+        mapView.getMapboxMap().setCamera(
+                new CameraOptions.Builder()
+                        .center(point)
+                        .zoom(16.0)
+                        .build()
+        );
+        showMessage("Lat: " + latitude + " Lon: " + longitude);
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,7 +180,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
@@ -141,9 +191,9 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
-
     private void loadEvent(long id) {
         if (id == -1) return; // modo crear, no tiene que precargar
 
@@ -167,6 +217,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             }
         });
     }
+
+
     private void fillForm(Event event) {
         editTitle.setText(event.getTitle());
         editLocation.setText(event.getLocation());
@@ -179,18 +231,41 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         switchPublic.setChecked(event.isPublic());
         editSpeakerId.setText(String.valueOf(event.getSpeakerId()));
 
+        EventEntity localEvent = DatabaseUtil.getDb(this).eventDao().findById(event.getId());
 
-        // expectedAttendance NO está en Event (salida), solo en EventRequest (entrada).
-        // No se precargan datos, el admin debe introducirlos manualmente
+        if (localEvent != null) {
+
+            if (localEvent.getImageUri() != null && !localEvent.getImageUri().isEmpty()) {
+                imageUri = localEvent.getImageUri();
+                imagePreview.setImageURI(Uri.parse(imageUri));
+            }
+
+            if (localEvent.getLatitude() != null && localEvent.getLongitude() != null) {
+                latitude = localEvent.getLatitude();
+                longitude = localEvent.getLongitude();
+
+                showMessage("Lat: " + latitude + " Lon: " + longitude);
+                Point point = Point.fromLngLat(longitude, latitude);
+                currentPoint = point;
+
+                pointAnnotationManager.deleteAll();
+                MapUtils.addMarker(this, pointAnnotationManager, point);
+
+                mapView.getMapboxMap().setCamera(
+                        new CameraOptions.Builder()
+                                .center(point)
+                                .zoom(16.0)
+                                .build()
+                );
+            }
+        }
     }
-
     public void selectImage(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         galleryLauncher.launch(intent);
     }
-
 
     private void trySave() {
         String title = editTitle.getText().toString().trim();
@@ -278,20 +353,15 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
 
         // Se guarda en Room la Uri asociada a este evento.
         // La API no guarda imágenes, el almacenamiento es solo local.
-        saveImageUriInRoom(event);
+        saveLocalDataInRoom(event);
 
         setResult(RESULT_OK);
         finish();
     }
 
-    private void saveImageUriInRoom(Event event) {
+    private void saveLocalDataInRoom(Event event) {
+        EventEntity localEvent = DatabaseUtil.getDb(this).eventDao().findById(event.getId());
 
-        // Si no se ha seleccionado imagen al editar, no sobrescribimos. Esto permite mantener una imagen antigua al editar
-        if (imageUri == null || imageUri.isEmpty()) {
-            return;
-        }
-
-        // Creamos/actualizamos el registro local de Room con la imageUri.
         EventEntity eventEntity = new EventEntity();
 
         eventEntity.setId(event.getId());
@@ -302,7 +372,19 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         eventEntity.setPublic(event.isPublic());
         eventEntity.setSpeakerId(event.getSpeakerId());
 
-        eventEntity.setImageUri(imageUri);
+        if (imageUri != null && !imageUri.isEmpty()) {
+            eventEntity.setImageUri(imageUri);
+        } else if (localEvent != null) {
+            eventEntity.setImageUri(localEvent.getImageUri());
+        }
+
+        if (latitude != null && longitude != null) {
+            eventEntity.setLatitude(latitude);
+            eventEntity.setLongitude(longitude);
+        } else if (localEvent != null) {
+            eventEntity.setLatitude(localEvent.getLatitude());
+            eventEntity.setLongitude(localEvent.getLongitude());
+        }
 
         DatabaseUtil.getDb(this).eventDao().insert(eventEntity);
     }

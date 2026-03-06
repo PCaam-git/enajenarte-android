@@ -13,15 +13,22 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotation;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.gestures.GesturesPlugin;
+import com.mapbox.maps.plugin.gestures.GesturesUtils;
+import com.mapbox.maps.plugin.gestures.OnMapClickListener;
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.api.WorkshopApi;
 import com.svalero.enajenarte.api.WorkshopApiInterface;
@@ -35,14 +42,19 @@ import com.svalero.enajenarte.util.DateUtil;
 
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
+import com.svalero.enajenarte.util.MapUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WorkshopEditActivity extends AppCompatActivity implements WorkshopEditContract.View {
+public class WorkshopEditActivity extends AppCompatActivity implements WorkshopEditContract.View, OnMapClickListener {
 
     private WorkshopEditPresenter presenter;
+    private PointAnnotationManager pointAnnotationManager;
+    private GesturesPlugin gesturesPlugin;
+    private Point currentPoint;
+    private MapView mapView;
 
     private EditText editName;
     private EditText editDescription;
@@ -54,10 +66,31 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
     private String imageUri;
     private ImageView imagePreview;
     private EditText editSpeakerId;
+    private Double latitude;
+    private Double longitude;
     private Button buttonSave;
-    private MapView mapView;
+    private Button buttonCancel;
+
 
     private long workshopId;
+
+    private final ActivityResultLauncher<Intent> galleryLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            if (uri != null) {
+
+                                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+
+                                imagePreview.setImageURI(uri);
+                                imageUri = uri.toString();
+                            }
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +103,30 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         // Views
         editName = findViewById(R.id.edit_workshop_name);
         editDescription = findViewById(R.id.edit_workshop_description);
+
         editStartDate = findViewById(R.id.edit_workshop_start_date);
         editStartDate.setHint("dd/MM/yyyy");
+
         editDuration = findViewById(R.id.edit_workshop_duration);
         editPrice = findViewById(R.id.edit_workshop_price);
         editMaxCapacity = findViewById(R.id.edit_workshop_max_capacity);
         switchOnline = findViewById(R.id.switch_workshop_online);
         editSpeakerId = findViewById(R.id.edit_workshop_speaker_id);
         buttonSave = findViewById(R.id.button_save_workshop);
-        mapView = findViewById(R.id.map_workshop_location);
-        initializeMapView();
+        buttonCancel = findViewById(R.id.button_cancel_workshop);
 
+
+        mapView = findViewById(R.id.map_workshop_location);
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+        mapView.getMapboxMap().setCamera(
+                new CameraOptions.Builder()
+                        .center(Point.fromLngLat(-0.8891, 41.6488))
+                        .zoom(14.0)
+                        .build()
+        );
+
+        initializeGesturesPlugin();
+        pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
         // Get id
         workshopId = getIntent().getLongExtra("workshop_id", -1);
@@ -100,30 +146,32 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
+        buttonCancel.setOnClickListener(v -> finish());
+    }
+    private void initializeGesturesPlugin() {
+        gesturesPlugin = GesturesUtils.getGestures(mapView);
+        gesturesPlugin.addOnMapClickListener(this);
     }
 
-    private void initializeMapView() {
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+    @Override
+    public boolean onMapClick(@NonNull Point point) {
+        pointAnnotationManager.deleteAll();
+        currentPoint = point;
+        latitude = point.latitude();
+        longitude = point.longitude();
+
+        MapUtils.addMarker(this, pointAnnotationManager, point);
+
+        mapView.getMapboxMap().setCamera(
+                new CameraOptions.Builder()
+                        .center(point)
+                        .zoom(16.0)
+                        .build()
+        );
+        showMessage("Lat: " + latitude + " Lon: " + longitude);
+
+        return false;
     }
-
-    private final ActivityResultLauncher<Intent> galleryLauncher =
-            registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            Uri uri = result.getData().getData();
-                            if (uri != null) {
-
-                                // Guardar permiso de lectura para poder usar esta Uri más adelante (Room + Detail)
-                                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
-
-                                imagePreview.setImageURI(uri);
-                                imageUri = uri.toString();
-                            }
-                        }
-                    }
-            );
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,7 +180,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
@@ -143,6 +191,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     private void loadWorkshop(long id) {
@@ -182,6 +231,35 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         editPrice.setText(String.valueOf(workshop.getPrice()));
         switchOnline.setChecked(workshop.isOnline());
         editSpeakerId.setText(String.valueOf(workshop.getSpeakerId()));
+
+        WorkshopEntity localWorkshop = DatabaseUtil.getDb(this).workshopDao().findById(workshop.getId());
+
+        if (localWorkshop != null) {
+
+            if (localWorkshop.getImageUri() != null && !localWorkshop.getImageUri().isEmpty()) {
+                imageUri = localWorkshop.getImageUri();
+                imagePreview.setImageURI(Uri.parse(localWorkshop.getImageUri()));
+            }
+
+            if (localWorkshop.getLatitude() != null && localWorkshop.getLongitude() != null) {
+                latitude = localWorkshop.getLatitude();
+                longitude = localWorkshop.getLongitude();
+
+                showMessage("Lat: " + latitude + " Lon: " + longitude);
+                Point point = Point.fromLngLat(longitude, latitude);
+                currentPoint = point;
+
+                pointAnnotationManager.deleteAll();
+                MapUtils.addMarker(WorkshopEditActivity.this, pointAnnotationManager, point);
+
+                mapView.getMapboxMap().setCamera(
+                        new CameraOptions.Builder()
+                                .center(point)
+                                .zoom(16.0)
+                                .build()
+                );
+            }
+        }
     }
 
     public void selectImage (View view) {
@@ -277,19 +355,16 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
     public void closeAfterUpdate(Workshop workshop) {
 
         // Se guarda en Room la Uri asociada a este taller.
-        saveImageUriInRoom(workshop);
+        saveLocalDataInRoom(workshop);
 
         setResult(RESULT_OK);
         finish();
     }
 
-    private void saveImageUriInRoom(Workshop workshop) {
-        // Si no se ha seleccionado imagen al editar, no sobrescribimos. Esto permite mantener una imagen antigua al editar
-        if (imageUri == null || imageUri.isEmpty()) {
-            return;
-        }
+    private void saveLocalDataInRoom(Workshop workshop) {
 
-        // Creamos - actualizamos el registro local de Room con la imageUri
+        WorkshopEntity localWorkshop = DatabaseUtil.getDb(this).workshopDao().findById(workshop.getId());
+
         WorkshopEntity workshopEntity = new WorkshopEntity();
 
         workshopEntity.setId(workshop.getId());
@@ -302,7 +377,19 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         workshopEntity.setOnline(workshop.isOnline());
         workshopEntity.setSpeakerId(workshop.getSpeakerId());
 
-        workshopEntity.setImageUri(imageUri);
+        if (imageUri != null && !imageUri.isEmpty()) {
+            workshopEntity.setImageUri(imageUri);
+        } else if (localWorkshop != null) {
+            workshopEntity.setImageUri(localWorkshop.getImageUri());
+        }
+
+        if (latitude != null && longitude != null) {
+            workshopEntity.setLatitude(latitude);
+            workshopEntity.setLongitude(longitude);
+        } else if (localWorkshop != null) {
+            workshopEntity.setLatitude(localWorkshop.getLatitude());
+            workshopEntity.setLongitude(localWorkshop.getLongitude());
+        }
 
         DatabaseUtil.getDb(this).workshopDao().insert(workshopEntity);
     }

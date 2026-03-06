@@ -137,7 +137,7 @@ public class EventListModel implements EventListContract.Model {
             Double previousLongitude = null;
             for (EventEntity old : oldEventEntities) {
                 if (old.getId() == event.getId()) {
-                    previousLongitude = old.getLatitude();
+                    previousLongitude = old.getLongitude();
                     break;
                 }
             }

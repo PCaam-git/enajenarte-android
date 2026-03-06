@@ -142,7 +142,7 @@ public class WorkshopListModel implements WorkshopListContract.Model {
             Double previousLongitude = null;
             for (WorkshopEntity old : oldWorkshopEntities) {
                 if (old.getId() == workshop.getId()) {
-                    previousLongitude = old.getLatitude();
+                    previousLongitude = old.getLongitude();
                     break;
                 }
             }
