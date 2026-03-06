@@ -29,6 +29,7 @@ import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.domain.request.WorkshopRequest;
 import com.svalero.enajenarte.presenter.WorkshopEditPresenter;
+import com.svalero.enajenarte.util.DateUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +65,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         editName = findViewById(R.id.edit_workshop_name);
         editDescription = findViewById(R.id.edit_workshop_description);
         editStartDate = findViewById(R.id.edit_workshop_start_date);
+        editStartDate.setHint("dd/MM/yyyy");
         editDuration = findViewById(R.id.edit_workshop_duration);
         editPrice = findViewById(R.id.edit_workshop_price);
         editMaxCapacity = findViewById(R.id.edit_workshop_max_capacity);
@@ -135,7 +137,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
 
         if (workshop.getStartDate() != null) {
-            editStartDate.setText(workshop.getStartDate().toString());
+            editStartDate.setText(DateUtil.formatDate(workshop.getStartDate()));
         }
 
         editDuration.setText(String.valueOf(workshop.getDurationMinutes()));
@@ -194,6 +196,13 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         if (speakerId < 1) {
             showError("SpeakerId inválido");
+            return;
+        }
+
+        startDate = DateUtil.userToIsoDate(startDate);
+
+        if (startDate == null) {
+            showError("Formato de fecha inválido. Use dd/MM/yyyy");
             return;
         }
 
