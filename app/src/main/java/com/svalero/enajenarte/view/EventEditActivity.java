@@ -11,6 +11,7 @@ import android.widget.Toast;
 import android.net.Uri;
 import android.content.Intent;
 
+
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ import com.svalero.enajenarte.presenter.EventEditPresenter;
 import com.svalero.enajenarte.db.DatabaseUtil;
 import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.dao.EventDao;
+import com.svalero.enajenarte.util.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +66,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editTitle = findViewById(R.id.edit_event_title);
         editLocation = findViewById(R.id.edit_event_location);
         editEventDate = findViewById(R.id.edit_event_date);
+        editEventDate.setHint("dd/MM/yyyy HH:mm");
         editExpectedAttendance = findViewById(R.id.edit_event_expected_attendance);
         switchPublic = findViewById(R.id.switch_event_public);
         editEntryFee = findViewById(R.id.edit_event_entry_fee);
@@ -133,7 +136,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editLocation.setText(event.getLocation());
 
         if (event.getEventDate() != null) {
-            editEventDate.setText(event.getEventDate());
+            editEventDate.setText(DateUtil.formatDateTime(event.getEventDate()));
         }
 
         editEntryFee.setText(String.valueOf(event.getEntryFee()));
@@ -161,7 +164,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         String entryFeeStr = editEntryFee.getText().toString().trim();
         String speakerIdStr = editSpeakerId.getText().toString().trim();
 
-        // EventDate debe ir en formato ISO: yyyy-MM-dd'T'HH:mm:ss (ej: 2026-02-21T10:30:00)
+        // El usuario introduce la fecha en formato dd/MM/yyyy HH:mm.
+        // Antes de enviar a la API se convierte a formato ISO con DateUtil.userToIsoDateTime().
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(location) || TextUtils.isEmpty(eventDate)
                 || TextUtils.isEmpty(expectedAttendanceStr) || TextUtils.isEmpty(entryFeeStr)
                 || TextUtils.isEmpty(speakerIdStr)) {
@@ -196,6 +200,14 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             showError("SpeakerId inválido");
             return;
         }
+
+        eventDate = DateUtil.userToIsoDateTime(eventDate);
+
+        if (eventDate == null) {
+            showError("Formato de fecha y hora inválido. Use dd/MM/yyyy HH:mm");
+            return;
+        }
+
 
         EventRequest request = EventRequest.builder()
                 .title(title)
