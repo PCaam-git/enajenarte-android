@@ -38,7 +38,7 @@
             android:id="@+id/edit_workshop_start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha inicio (YYYY-MM-DD)"
+            android:hint="Fecha inicio (DD/MM/AAAA)"
             android:layout_marginTop="12dp" />
 
         <EditText
