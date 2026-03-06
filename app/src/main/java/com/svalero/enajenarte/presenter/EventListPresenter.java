@@ -1,11 +1,16 @@
 package com.svalero.enajenarte.presenter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
 
 import com.svalero.enajenarte.contract.EventListContract;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.model.EventListModel;
+import com.svalero.enajenarte.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,9 +32,26 @@ public class EventListPresenter implements EventListContract.Presenter,
 
     @Override
     public void onLoadSuccess(List<Event> events) {
-        view.showEvents(events);
-        view.showMessage("Eventos cargados: " + events.size());
-    }
+
+            SharedPreferences preferences =
+                    PreferenceManager.getDefaultSharedPreferences((Context) view);
+
+            boolean onlyFuture = preferences.getBoolean("only_future", false);
+
+            List<Event> filteredEvents = events;
+
+            if (onlyFuture) {
+                filteredEvents = new ArrayList<>();
+                for (Event event : events) {
+                    if (DateUtil.isFuture(event.getEventDate())) {
+                        filteredEvents.add(event);
+                    }
+                }
+            }
+
+            view.showEvents(filteredEvents);
+            view.showMessage("Eventos cargados: " + filteredEvents.size());
+        }
 
     @Override
     public void onLoadError(String message) {

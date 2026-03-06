@@ -2,14 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreferenceCompat
-        android:key="show_images"
-        android:title="@string/pref_show_images"
-        android:defaultValue="true" />
+        android:key="only_future"
+        android:title="@string/pref_only_future"
+        android:defaultValue="false" />
 
-    <SwitchPreferenceCompat
-        android:key="confirm_delete"
-        android:title="@string/pref_confirm_delete"
-        android:defaultValue="true" />
 
     <SwitchPreferenceCompat
         android:key="large_text"
