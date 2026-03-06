@@ -125,7 +125,26 @@ public class EventListModel implements EventListContract.Model {
                     break;
                 }
             }
+
+            Double previousLatitude = null;
+            for (EventEntity old : oldEventEntities) {
+                if (old.getId() == event.getId()) {
+                    previousLatitude = old.getLatitude();
+                    break;
+                }
+            }
+
+            Double previousLongitude = null;
+            for (EventEntity old : oldEventEntities) {
+                if (old.getId() == event.getId()) {
+                    previousLongitude = old.getLatitude();
+                    break;
+                }
+            }
+
             entity.setImageUri(previousImageUri);
+            entity.setLatitude(previousLatitude);
+            entity.setLongitude(previousLongitude);
 
             entities.add(entity);
         }

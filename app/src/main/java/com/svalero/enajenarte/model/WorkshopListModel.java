@@ -6,6 +6,7 @@ import com.svalero.enajenarte.api.WorkshopApi;
 import com.svalero.enajenarte.api.WorkshopApiInterface;
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.db.DatabaseUtil;
+import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 
@@ -121,7 +122,7 @@ public class WorkshopListModel implements WorkshopListContract.Model {
                     workshop.getSpeakerId()
             );
 
-            // Conservar la imagen anterior si ya existía
+            // Conservar la imagen anterior, latitud y longitud si ya existía
             String previousImageuri = null;
             for (WorkshopEntity old : oldWorkshopEntities) {
                 if (old.getId() == workshop.getId()) {
@@ -129,7 +130,26 @@ public class WorkshopListModel implements WorkshopListContract.Model {
                     break;
                 }
             }
+
+            Double previousLatitude = null;
+            for (WorkshopEntity old : oldWorkshopEntities) {
+                if (old.getId() == workshop.getId()) {
+                    previousLatitude = old.getLatitude();
+                    break;
+                }
+            }
+
+            Double previousLongitude = null;
+            for (WorkshopEntity old : oldWorkshopEntities) {
+                if (old.getId() == workshop.getId()) {
+                    previousLongitude = old.getLatitude();
+                    break;
+                }
+            }
+
             entity.setImageUri(previousImageuri);
+            entity.setLatitude(previousLatitude);
+            entity.setLongitude(previousLongitude);
             
             entities.add(entity);
         }

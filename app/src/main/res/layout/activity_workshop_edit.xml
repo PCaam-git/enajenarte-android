@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -88,10 +89,10 @@
 
         <ImageView
             android:id="@+id/image_workshop_preview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <Button
@@ -101,6 +102,12 @@
             android:text="Seleccionar imagen"
             android:onClick="selectImage"
             android:layout_marginTop="8dp" />
+
+        <com.mapbox.maps.MapView
+            android:id="@+id/map_workshop_location"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp" />
 
 
         <Button

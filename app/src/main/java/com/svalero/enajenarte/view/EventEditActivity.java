@@ -35,6 +35,9 @@ import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.dao.EventDao;
 import com.svalero.enajenarte.util.*;
 
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +56,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     private String imageUri;
     private ImageView imagePreview;
     private Button buttonSave;
-
+    private MapView mapView;
     private long eventId;
 
     @Override
@@ -74,6 +77,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editEntryFee = findViewById(R.id.edit_event_entry_fee);
         editSpeakerId = findViewById(R.id.edit_event_speaker_id);
         buttonSave = findViewById(R.id.button_save_event);
+        mapView = findViewById(R.id.map_event_location);
+        initializeMapView();
 
         // Get id
         eventId = getIntent().getLongExtra("event_id", -1);
@@ -93,6 +98,10 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
 
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
+    }
+
+    private void initializeMapView() {
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
     }
 
     private final ActivityResultLauncher<Intent> galleryLauncher =

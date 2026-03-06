@@ -33,6 +33,9 @@ import com.svalero.enajenarte.domain.request.WorkshopRequest;
 import com.svalero.enajenarte.presenter.WorkshopEditPresenter;
 import com.svalero.enajenarte.util.DateUtil;
 
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,6 +55,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
     private ImageView imagePreview;
     private EditText editSpeakerId;
     private Button buttonSave;
+    private MapView mapView;
 
     private long workshopId;
 
@@ -74,6 +78,9 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         switchOnline = findViewById(R.id.switch_workshop_online);
         editSpeakerId = findViewById(R.id.edit_workshop_speaker_id);
         buttonSave = findViewById(R.id.button_save_workshop);
+        mapView = findViewById(R.id.map_workshop_location);
+        initializeMapView();
+
 
         // Get id
         workshopId = getIntent().getLongExtra("workshop_id", -1);
@@ -93,6 +100,10 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
+    }
+
+    private void initializeMapView() {
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
     }
 
     private final ActivityResultLauncher<Intent> galleryLauncher =

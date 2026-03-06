@@ -8,7 +8,7 @@ import com.svalero.enajenarte.db.dao.WorkshopDao;
 import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.entity.WorkshopEntity;
 
-@Database(entities = {WorkshopEntity.class, EventEntity.class}, version = 3)
+@Database(entities = {WorkshopEntity.class, EventEntity.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WorkshopDao workshopDao();
     public abstract EventDao eventDao();
