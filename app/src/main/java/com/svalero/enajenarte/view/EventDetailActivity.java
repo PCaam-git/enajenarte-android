@@ -62,6 +62,10 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
 
         setTitle("Detalle evento");
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         presenter.loadEvent(eventId);
     }
 
@@ -113,7 +117,10 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_edit_event) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_edit_event) {
             openEdit();
             return true;
         } else if (id == R.id.action_delete_event) {

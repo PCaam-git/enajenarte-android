@@ -2,6 +2,7 @@ package com.svalero.enajenarte.view;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.net.Uri;
 import android.content.Intent;
+import android.view.MenuItem;
 
 
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -85,6 +87,10 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             setTitle("Crear evento");
         }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         // Guardar
         buttonSave.setOnClickListener(v -> trySave());
     }
@@ -107,6 +113,27 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                         }
                     }
             );
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void loadEvent(long id) {
         if (id == -1) return; // modo crear, no tiene que precargar
