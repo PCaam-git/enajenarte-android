@@ -7,6 +7,7 @@ import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +37,10 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         presenter = new EventListPresenter(this);
         eventList = new ArrayList<>();
@@ -104,15 +109,19 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
         return true;
     }
 
-    // Cuando el usuario pulsa "Crear", se abre la pantalla de edición
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        if (item.getItemId() == R.id.action_create_event) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_create_event) {
             Intent intent = new Intent(this, EventEditActivity.class);
             startActivity(intent);
             return true;
-        } else if (item.getItemId() == R.id.action_settings) {
+        } else if (id == R.id.action_settings) {
             Intent intent = new Intent(this, PreferencesActivity.class);
             startActivity(intent);
             return true;
@@ -120,6 +129,8 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     // CONTRACT VIEW
     @Override
