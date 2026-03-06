@@ -76,6 +76,10 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
 
         setTitle("Detalle taller");
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         presenter.loadWorkshop(workshopId);
     }
 
@@ -130,7 +134,10 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_edit_workshop) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_edit_workshop) {
             openEdit();
             return true;
         } else if (id == R.id.action_delete_workshop) {
