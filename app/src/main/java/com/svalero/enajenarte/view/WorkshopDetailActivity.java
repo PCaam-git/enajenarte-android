@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -17,6 +19,13 @@ import androidx.core.view.WindowInsetsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.gestures.GesturesPlugin;
+import com.mapbox.maps.plugin.gestures.GesturesUtils;
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.contract.WorkshopDetailContract;
 import com.svalero.enajenarte.db.DatabaseUtil;
@@ -24,6 +33,7 @@ import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
+import com.svalero.enajenarte.util.MapUtils;
 import com.svalero.enajenarte.view.PreferencesActivity;
 
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
@@ -42,13 +52,15 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     private ImageView imageWorkshopDetail;
     private TextView speakerIdTextView;
 
+    private MapView mapView;
+    private PointAnnotationManager pointAnnotationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_detail);
 
         presenter = new WorkshopDetailPresenter(this);
-
 
         nameTextView = findViewById(R.id.text_workshop_name);
         descriptionTextView = findViewById(R.id.text_workshop_description);
@@ -58,10 +70,9 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         isOnlineTextView = findViewById(R.id.text_workshop_is_online);
         imageWorkshopDetail = findViewById(R.id.image_workshop_detail);
         speakerIdTextView = findViewById(R.id.text_workshop_speaker_id);
+        mapView = findViewById(R.id.map_workshop_detail);
 
         workshopId = getIntent().getLongExtra("workshop_id", -1);
-
-        presenter = new WorkshopDetailPresenter(this);
 
         if (nameTextView == null) {
             Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
@@ -81,6 +92,46 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         }
 
         presenter.loadWorkshop(workshopId);
+
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean showMaps = preferences.getBoolean("show_maps", true);
+
+        if (!showMaps) {
+            mapView.setVisibility(View.GONE);
+        } else {
+            mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+            pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
+
+            WorkshopEntity localWorkshop = DatabaseUtil.getDb(this)
+                    .workshopDao()
+                    .findById(workshopId);
+
+            if (localWorkshop != null &&
+                    localWorkshop.getLatitude() != null &&
+                    localWorkshop.getLongitude() != null) {
+
+                Point point = Point.fromLngLat(
+                        localWorkshop.getLongitude(),
+                        localWorkshop.getLatitude()
+                );
+
+                MapUtils.addMarker(this, pointAnnotationManager, point);
+
+                mapView.getMapboxMap().setCamera(
+                        new CameraOptions.Builder()
+                                .center(point)
+                                .zoom(16.0)
+                                .build()
+                );
+            }
+
+            GesturesPlugin gesturesPlugin = GesturesUtils.getGestures(mapView);
+            gesturesPlugin.setScrollEnabled(false);
+            gesturesPlugin.setRotateEnabled(false);
+            gesturesPlugin.setPitchEnabled(false);
+        }
     }
 
     @Override

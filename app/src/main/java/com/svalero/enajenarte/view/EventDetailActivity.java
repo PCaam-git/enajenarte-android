@@ -10,15 +10,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.gestures.GesturesPlugin;
+import com.mapbox.maps.plugin.gestures.GesturesUtils;
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.contract.EventDetailContract;
 import com.svalero.enajenarte.db.DatabaseUtil;
 import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.presenter.EventDetailPresenter;
+import com.svalero.enajenarte.util.MapUtils;
 import com.svalero.enajenarte.view.PreferencesActivity;
 
 import com.svalero.enajenarte.util.DateUtil;
@@ -37,6 +47,8 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
     private TextView textDate;
 
     private ImageView imageEventDetail;
+    private MapView mapView;
+    private PointAnnotationManager pointAnnotationManager;
 
 
     @Override
@@ -52,6 +64,21 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         textEntryFee = findViewById(R.id.text_event_entry_fee);
         textPublic = findViewById(R.id.text_event_public);
         imageEventDetail = findViewById(R.id.image_event_detail);
+        mapView = findViewById(R.id.map_event_detail);
+
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean showMaps = preferences.getBoolean("show_maps", true);
+
+        if (!showMaps) {
+            mapView = findViewById(R.id.map_event_detail);
+            mapView.setVisibility(View.GONE);
+            return;
+        }
+
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+        pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
         eventId = getIntent().getLongExtra("event_id", -1);
         if (eventId == -1) {
@@ -67,6 +94,34 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         }
 
         presenter.loadEvent(eventId);
+
+        EventEntity localEvent = DatabaseUtil.getDb(this)
+                .eventDao()
+                .findById(eventId);
+
+        if (localEvent != null &&
+                localEvent.getLatitude() != null &&
+                localEvent.getLongitude() != null) {
+
+            Point point = Point.fromLngLat(
+                    localEvent.getLongitude(),
+                    localEvent.getLatitude()
+            );
+
+            MapUtils.addMarker(this, pointAnnotationManager, point);
+
+            mapView.getMapboxMap().setCamera(
+                    new CameraOptions.Builder()
+                            .center(point)
+                            .zoom(16.0)
+                            .build()
+            );
+        }
+
+        GesturesPlugin gesturesPlugin = GesturesUtils.getGestures(mapView);
+        gesturesPlugin.setScrollEnabled(false);
+        gesturesPlugin.setRotateEnabled(false);
+        gesturesPlugin.setPitchEnabled(false);
     }
 
     @Override
