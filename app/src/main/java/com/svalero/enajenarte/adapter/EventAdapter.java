@@ -1,12 +1,14 @@
 package com.svalero.enajenarte.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.enajenarte.R;
@@ -54,6 +56,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 DateUtil.formatDateTime(event.getEventDate())
         );
 
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(holder.itemView.getContext());
+
+        boolean largeText = preferences.getBoolean("large_text", false);
+
+        if (largeText) {
+            holder.eventTitleTextView.setTextSize(20);
+            holder.eventDateTextView.setTextSize(16);
+        } else {
+            holder.eventTitleTextView.setTextSize(16);
+            holder.eventDateTextView.setTextSize(14);
+        }
+
         holder.itemView.setOnClickListener(view ->
                 clickListener.onEventClick(event));
 
@@ -62,6 +77,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             longClickListener.onEventLongClick(event);
             return true;
         });
+
+
     }
 
 

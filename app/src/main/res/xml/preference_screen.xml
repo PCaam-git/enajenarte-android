@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="only_future"
+        android:title="@string/pref_only_future"
+        android:defaultValue="false" />
+
+    <SwitchPreferenceCompat
+        android:key="show_maps"
+        android:title="Mostrar mapas"
+        android:summary="Mostrar la ubicación en los detalles"
+        android:defaultValue="true" />
+
+
+    <SwitchPreferenceCompat
+        android:key="large_text"
+        android:title="@string/pref_large_text"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

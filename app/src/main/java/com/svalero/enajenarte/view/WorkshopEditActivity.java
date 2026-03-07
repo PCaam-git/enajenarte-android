@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,7 @@ import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.domain.request.WorkshopRequest;
 import com.svalero.enajenarte.presenter.WorkshopEditPresenter;
+import com.svalero.enajenarte.util.DateUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +67,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         editName = findViewById(R.id.edit_workshop_name);
         editDescription = findViewById(R.id.edit_workshop_description);
         editStartDate = findViewById(R.id.edit_workshop_start_date);
+        editStartDate.setHint("dd/MM/yyyy");
         editDuration = findViewById(R.id.edit_workshop_duration);
         editPrice = findViewById(R.id.edit_workshop_price);
         editMaxCapacity = findViewById(R.id.edit_workshop_max_capacity);
@@ -81,6 +85,10 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             setTitle("Editar taller");
         } else {
             setTitle("Crear taller");
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // Guardar
@@ -105,6 +113,27 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                         }
                     }
             );
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void loadWorkshop(long id) {
         if (id == -1) return; // modo crear, no tiene que precargar
 
@@ -123,8 +152,8 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             @Override
             public void onFailure(Call<Workshop> call, Throwable throwable) {
                 Toast.makeText(WorkshopEditActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                if (workshopId != -1) // solo cierra en el modo editar
-                finish();
+                    if (workshopId != -1) // solo cierra en el modo editar
+                        finish();
             }
         });
     }
@@ -135,7 +164,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
 
         if (workshop.getStartDate() != null) {
-            editStartDate.setText(workshop.getStartDate().toString());
+            editStartDate.setText(DateUtil.formatDate(workshop.getStartDate()));
         }
 
         editDuration.setText(String.valueOf(workshop.getDurationMinutes()));
@@ -194,6 +223,13 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         if (speakerId < 1) {
             showError("SpeakerId inválido");
+            return;
+        }
+
+        startDate = DateUtil.userToIsoDate(startDate);
+
+        if (startDate == null) {
+            showError("Formato de fecha inválido. Use dd/MM/yyyy");
             return;
         }
 

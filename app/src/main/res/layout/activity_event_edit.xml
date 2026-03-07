@@ -30,7 +30,7 @@
             android:id="@+id/edit_event_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha y hora (YYYY-MM-DDTHH:MM:SS) ej: 2026-02-21T10:30:00"
+            android:hint="Fecha y hora DD/MM/YYY HH:mm"
             android:inputType="text" />
 
         <EditText

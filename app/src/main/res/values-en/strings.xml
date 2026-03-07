@@ -47,7 +47,7 @@
     <string name="menu_workshops">Workshops</string>
     <string name="menu_events">Events</string>
     <string name="menu_my_registrations">My Enrollments</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings">Preferences</string>
     <string name="menu_map">Map</string>
 
     <!-- Dialogs -->
@@ -67,5 +67,11 @@
     <string name="menu_create">Create</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
+
+    <!-- Preferences -->
+    <!-- Preferencias -->
+    <string name="preferences_title">Preferences</string>
+    <string name="pref_only_future">Only future</string>
+    <string name="pref_large_text">Large text</string>
 
 </resources>

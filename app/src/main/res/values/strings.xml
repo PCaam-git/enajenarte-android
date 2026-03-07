@@ -47,7 +47,7 @@
     <string name="menu_workshops">Talleres</string>
     <string name="menu_events">Eventos</string>
     <string name="menu_my_registrations">Mis Inscripciones</string>
-    <string name="menu_settings">Ajustes</string>
+    <string name="menu_settings">Preferencias</string>
     <string name="menu_map">Mapa</string>
 
     <!-- Diálogos -->
@@ -67,5 +67,10 @@
     <string name="menu_create">Crear</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_delete">Eliminar</string>
+
+    <!-- Preferencias -->
+    <string name="preferences_title">Preferencias</string>
+    <string name="pref_only_future">Solo futuros</string>
+    <string name="pref_large_text">Texto grande</string>
 
 </resources>

@@ -1,11 +1,16 @@
 package com.svalero.enajenarte.presenter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
 
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.model.WorkshopListModel;
+import com.svalero.enajenarte.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkshopListPresenter implements WorkshopListContract.Presenter,
@@ -25,6 +30,22 @@ public class WorkshopListPresenter implements WorkshopListContract.Presenter,
 
     @Override
     public void onLoadSuccess(List<Workshop> workshops) {
+
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences((Context) view);
+
+        boolean onlyFuture = preferences.getBoolean("only_future", false);
+
+        List<Workshop> filteredWorkshops = workshops;
+
+        if (onlyFuture) {
+            filteredWorkshops = new ArrayList<>();
+            for (Workshop workshop : workshops) {
+                if (DateUtil.isFuture(workshop.getStartDate())) {
+                    filteredWorkshops.add(workshop);
+                }
+            }
+        }
         view.showWorkshops(workshops);
         view.showMessage("Talleres cargados: " + workshops.size());
     }

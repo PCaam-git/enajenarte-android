@@ -2,6 +2,7 @@ package com.svalero.enajenarte.view;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.net.Uri;
 import android.content.Intent;
+import android.view.MenuItem;
+
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +33,7 @@ import com.svalero.enajenarte.presenter.EventEditPresenter;
 import com.svalero.enajenarte.db.DatabaseUtil;
 import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.dao.EventDao;
+import com.svalero.enajenarte.util.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +68,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editTitle = findViewById(R.id.edit_event_title);
         editLocation = findViewById(R.id.edit_event_location);
         editEventDate = findViewById(R.id.edit_event_date);
+        editEventDate.setHint("dd/MM/yyyy HH:mm");
         editExpectedAttendance = findViewById(R.id.edit_event_expected_attendance);
         switchPublic = findViewById(R.id.switch_event_public);
         editEntryFee = findViewById(R.id.edit_event_entry_fee);
@@ -80,6 +85,10 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             setTitle("Editar evento");
         } else {
             setTitle("Crear evento");
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // Guardar
@@ -104,6 +113,27 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                         }
                     }
             );
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void loadEvent(long id) {
         if (id == -1) return; // modo crear, no tiene que precargar
@@ -133,7 +163,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editLocation.setText(event.getLocation());
 
         if (event.getEventDate() != null) {
-            editEventDate.setText(event.getEventDate());
+            editEventDate.setText(DateUtil.formatDateTime(event.getEventDate()));
         }
 
         editEntryFee.setText(String.valueOf(event.getEntryFee()));
@@ -161,7 +191,8 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         String entryFeeStr = editEntryFee.getText().toString().trim();
         String speakerIdStr = editSpeakerId.getText().toString().trim();
 
-        // EventDate debe ir en formato ISO: yyyy-MM-dd'T'HH:mm:ss (ej: 2026-02-21T10:30:00)
+        // El usuario introduce la fecha en formato dd/MM/yyyy HH:mm.
+        // Antes de enviar a la API se convierte a formato ISO con DateUtil.userToIsoDateTime().
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(location) || TextUtils.isEmpty(eventDate)
                 || TextUtils.isEmpty(expectedAttendanceStr) || TextUtils.isEmpty(entryFeeStr)
                 || TextUtils.isEmpty(speakerIdStr)) {
@@ -196,6 +227,14 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             showError("SpeakerId inválido");
             return;
         }
+
+        eventDate = DateUtil.userToIsoDateTime(eventDate);
+
+        if (eventDate == null) {
+            showError("Formato de fecha y hora inválido. Use dd/MM/yyyy HH:mm");
+            return;
+        }
+
 
         EventRequest request = EventRequest.builder()
                 .title(title)

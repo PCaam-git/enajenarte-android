@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_create_workshop"
-        android:title="@string/menu_create"
-        android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_settings"
         android:title="@string/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"

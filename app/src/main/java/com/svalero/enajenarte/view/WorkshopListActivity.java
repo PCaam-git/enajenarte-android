@@ -17,6 +17,7 @@ import com.svalero.enajenarte.adapter.WorkshopAdapter;
 import com.svalero.enajenarte.contract.WorkshopListContract;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopListPresenter;
+import com.svalero.enajenarte.view.PreferencesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,10 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_list);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         presenter = new WorkshopListPresenter(this);
         workshopList = new ArrayList<>();
@@ -103,11 +108,21 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
     // Cuando el usuario pulsa crear, se abre la pantalla de edición.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_create_workshop) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_create_workshop) {
             Intent intent = new Intent(this, WorkshopEditActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
