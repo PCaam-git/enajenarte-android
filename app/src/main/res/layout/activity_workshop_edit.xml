@@ -15,7 +15,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre">
+            android:hint="Nombre"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_name"
@@ -26,7 +27,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripción">
+            android:hint="Descripción"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_description"
@@ -38,7 +40,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha inicio (DD/MM/AAAA)">
+            android:hint="Fecha inicio (DD/MM/AAAA)"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_start_date"
@@ -49,7 +52,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Duración (minutos)">
+            android:hint="Duración (minutos)"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_duration"
@@ -61,7 +65,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio">
+            android:hint="Precio"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_price"
@@ -73,7 +78,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Capacidad máxima">
+            android:hint="Capacidad máxima"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_max_capacity"
@@ -95,7 +101,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Speaker ID">
+            android:hint="Speaker ID"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_workshop_speaker_id"

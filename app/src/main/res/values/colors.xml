@@ -1,28 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores primarios (tema cultural/artístico) -->
-    <color name="primary">#6A1B9A</color>           <!-- Púrpura cultural -->
-    <color name="primary_dark">#4A148C</color>      <!-- Púrpura oscuro -->
-    <color name="primary_light">#9C4DCC</color>     <!-- Púrpura claro -->
-
-    <!-- Colores secundarios/acento -->
-    <color name="accent">#FF6F00</color>            <!-- Naranja artístico -->
-    <color name="accent_dark">#E65100</color>       <!-- Naranja oscuro -->
-    <color name="accent_light">#FF9800</color>      <!-- Naranja claro -->
-
-    <!-- Fondos -->
-    <color name="background">#FAFAFA</color>        <!-- Gris muy claro -->
-    <color name="surface">#FFFFFF</color>           <!-- Blanco -->
-
-    <!-- Textos -->
-    <color name="text_primary">#212121</color>      <!-- Negro -->
-    <color name="text_secondary">#757575</color>    <!-- Gris -->
-
-    <!-- Estados -->
-    <color name="error">#D32F2F</color>             <!-- Rojo -->
-    <color name="success">#388E3C</color>           <!-- Verde -->
-
-    <!-- Material Design estándar (mantener) -->
+    <!--  Base berenjena + acento cálido  -->
+    <color name="primary">#6B1F7B</color>
+    <color name="primary_dark">#4A1257</color>
+    <color name="primary_light">#9A56A9</color>
+    <!--  Acento para acciones principales y contraste frente a la ActionBar  -->
+    <color name="accent">#D87A5C</color>
+    <color name="accent_dark">#B85F43</color>
+    <color name="accent_light">#E9A38C</color>
+    <!--  Fondos y superficies  -->
+    <color name="background">#F6F1EB</color>
+    <color name="surface">#FFFFFF</color>
+    <!--  Textos  -->
+    <color name="text_primary">#2E2A2F</color>
+    <color name="text_secondary">#6E6771</color>
+    <!--  Estados  -->
+    <color name="error">#C62828</color>
+    <color name="success">#2E7D32</color>
+    <!--  Material Design estándar  -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

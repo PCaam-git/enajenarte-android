@@ -15,7 +15,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_title"
@@ -27,7 +28,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_location"
@@ -40,7 +42,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha y hora (dd/MM/yyyy HH:mm)">
+            android:hint="Fecha y hora (dd/MM/yyyy HH:mm)"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_date"
@@ -51,7 +54,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_expected_attendance"
@@ -73,7 +77,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_entry_fee"
@@ -85,7 +90,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_event_speaker_id"
