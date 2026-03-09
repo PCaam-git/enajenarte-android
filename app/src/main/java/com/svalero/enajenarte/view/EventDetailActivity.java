@@ -29,7 +29,6 @@ import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.domain.Event;
 import com.svalero.enajenarte.presenter.EventDetailPresenter;
 import com.svalero.enajenarte.util.MapUtils;
-import com.svalero.enajenarte.view.PreferencesActivity;
 
 import com.svalero.enajenarte.util.DateUtil;
 
@@ -86,7 +85,19 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         }
 
         presenter.loadEvent(eventId);
+        applyMapPreference();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (eventId != -1) {
+            applyMapPreference();
+        }
+        presenter.loadEvent(eventId);
+    }
+
+    private void applyMapPreference() {
         SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -94,7 +105,9 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
 
         if (!showMaps) {
             mapView.setVisibility(View.GONE);
-        } else {
+            return;
+        }
+            mapView.setVisibility(View.VISIBLE);
             mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
             pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
@@ -125,14 +138,8 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
             gesturesPlugin.setScrollEnabled(false);
             gesturesPlugin.setRotateEnabled(false);
             gesturesPlugin.setPitchEnabled(false);
-        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.loadEvent(eventId);
-    }
 
     // Se abre la pantalla de edición
     private void openEdit() {

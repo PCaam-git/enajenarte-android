@@ -12,9 +12,6 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,12 +26,11 @@ import com.mapbox.maps.plugin.gestures.GesturesUtils;
 import com.svalero.enajenarte.R;
 import com.svalero.enajenarte.contract.WorkshopDetailContract;
 import com.svalero.enajenarte.db.DatabaseUtil;
-import com.svalero.enajenarte.db.entity.EventEntity;
 import com.svalero.enajenarte.db.entity.WorkshopEntity;
 import com.svalero.enajenarte.domain.Workshop;
 import com.svalero.enajenarte.presenter.WorkshopDetailPresenter;
 import com.svalero.enajenarte.util.MapUtils;
-import com.svalero.enajenarte.view.PreferencesActivity;
+
 
 public class WorkshopDetailActivity extends AppCompatActivity implements WorkshopDetailContract.View {
 
@@ -92,7 +88,19 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         }
 
         presenter.loadWorkshop(workshopId);
+        applyMapPreference();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (workshopId != -1) {
+            applyMapPreference();
+            presenter.loadWorkshop(workshopId);
+        }
+    }
+
+    private void applyMapPreference() {
         SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -100,7 +108,10 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
 
         if (!showMaps) {
             mapView.setVisibility(View.GONE);
-        } else {
+            return;
+        }
+
+            mapView.setVisibility(View.VISIBLE);
             mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
             pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
@@ -132,15 +143,7 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
             gesturesPlugin.setRotateEnabled(false);
             gesturesPlugin.setPitchEnabled(false);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (workshopId != -1) {
-            presenter.loadWorkshop(workshopId);
-        }
-    }
 
     // Se abre la pantalla de edición
     private void openEdit() {
