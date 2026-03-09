@@ -66,21 +66,13 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         imageEventDetail = findViewById(R.id.image_event_detail);
         mapView = findViewById(R.id.map_event_detail);
 
-        SharedPreferences preferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
+        eventId = getIntent().getLongExtra("event_id", -1);
 
-        boolean showMaps = preferences.getBoolean("show_maps", true);
-
-        if (!showMaps) {
-            mapView = findViewById(R.id.map_event_detail);
-            mapView.setVisibility(View.GONE);
+        if (textTitle == null) {
+            Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
-        pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
-
-        eventId = getIntent().getLongExtra("event_id", -1);
         if (eventId == -1) {
             Toast.makeText(this, "ID del evento no recibido", Toast.LENGTH_SHORT).show();
             finish();
@@ -95,33 +87,45 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
 
         presenter.loadEvent(eventId);
 
-        EventEntity localEvent = DatabaseUtil.getDb(this)
-                .eventDao()
-                .findById(eventId);
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (localEvent != null &&
-                localEvent.getLatitude() != null &&
-                localEvent.getLongitude() != null) {
+        boolean showMaps = preferences.getBoolean("show_maps", true);
 
-            Point point = Point.fromLngLat(
-                    localEvent.getLongitude(),
-                    localEvent.getLatitude()
-            );
+        if (!showMaps) {
+            mapView.setVisibility(View.GONE);
+        } else {
+            mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+            pointAnnotationManager = MapUtils.buildAnnotationManager(mapView);
 
-            MapUtils.addMarker(this, pointAnnotationManager, point);
+            EventEntity localEvent = DatabaseUtil.getDb(this)
+                    .eventDao()
+                    .findById(eventId);
 
-            mapView.getMapboxMap().setCamera(
-                    new CameraOptions.Builder()
-                            .center(point)
-                            .zoom(16.0)
-                            .build()
-            );
+            if (localEvent != null &&
+                    localEvent.getLatitude() != null &&
+                    localEvent.getLongitude() != null) {
+
+                Point point = Point.fromLngLat(
+                        localEvent.getLongitude(),
+                        localEvent.getLatitude()
+                );
+
+                MapUtils.addMarker(this, pointAnnotationManager, point);
+
+                mapView.getMapboxMap().setCamera(
+                        new CameraOptions.Builder()
+                                .center(point)
+                                .zoom(16.0)
+                                .build()
+                );
+            }
+
+            GesturesPlugin gesturesPlugin = GesturesUtils.getGestures(mapView);
+            gesturesPlugin.setScrollEnabled(false);
+            gesturesPlugin.setRotateEnabled(false);
+            gesturesPlugin.setPitchEnabled(false);
         }
-
-        GesturesPlugin gesturesPlugin = GesturesUtils.getGestures(mapView);
-        gesturesPlugin.setScrollEnabled(false);
-        gesturesPlugin.setRotateEnabled(false);
-        gesturesPlugin.setPitchEnabled(false);
     }
 
     @Override
