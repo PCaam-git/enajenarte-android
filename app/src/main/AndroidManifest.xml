@@ -15,7 +15,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Enajenarte"
+        android:theme="@style/Base.Theme.Enajenarte"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity

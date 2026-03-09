@@ -95,7 +95,7 @@
             android:scaleType="centerCrop"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_select_workshop_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,14 +110,14 @@
             android:layout_marginTop="16dp" />
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_save_workshop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar cambios"
             android:layout_marginTop="18dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel_workshop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
