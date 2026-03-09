@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-
     <!-- Lista ocupa el resto de pantalla -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/workshop_list"

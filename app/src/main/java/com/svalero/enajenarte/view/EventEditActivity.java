@@ -105,7 +105,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         editLocation = findViewById(R.id.edit_event_location);
 
         editEventDate = findViewById(R.id.edit_event_date);
-        editEventDate.setHint("dd/MM/yyyy HH:mm");
+//        editEventDate.setHint("dd/MM/yyyy HH:mm");
 
         editExpectedAttendance = findViewById(R.id.edit_event_expected_attendance);
         switchPublic = findViewById(R.id.switch_event_public);
