@@ -13,53 +13,93 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <EditText
-            android:id="@+id/edit_event_title"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Título"
-            android:inputType="text" />
+            app:boxBackgroundColor="@color/surface">
 
-        <EditText
-            android:id="@+id/edit_event_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ubicación"
-            android:inputType="text" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/edit_event_date"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha y hora DD/MM/YYY HH:mm"
-            android:inputType="text" />
+            app:boxBackgroundColor="@color/surface">
 
-        <EditText
-            android:id="@+id/edit_event_expected_attendance"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ubicación"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Asistencia esperada"
-            android:inputType="number" />
+            android:hint="Fecha y hora (dd/MM/yyyy HH:mm)"
+            app:boxBackgroundColor="@color/surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_expected_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Asistencia esperada"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Switch
             android:id="@+id/switch_event_public"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Evento público" />
-
-        <EditText
-            android:id="@+id/edit_event_entry_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Entrada (ej: 10.5)"
-            android:inputType="numberDecimal" />
+            android:minHeight="56dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Evento público"
+            android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edit_event_speaker_id"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="SpeakerId"
-            android:inputType="number" />
+            app:boxBackgroundColor="@color/surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_entry_fee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Entrada (ej: 10.5)"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_event_speaker_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="SpeakerId"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/image_event_preview"
@@ -69,7 +109,7 @@
             android:layout_marginTop="16dp"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_select_event_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,13 +123,13 @@
             android:layout_height="250dp"
             android:layout_marginTop="16dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_save_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -105,7 +105,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         editDescription = findViewById(R.id.edit_workshop_description);
 
         editStartDate = findViewById(R.id.edit_workshop_start_date);
-        editStartDate.setHint("dd/MM/yyyy");
+//        editStartDate.setHint("dd/MM/yyyy");
 
         editDuration = findViewById(R.id.edit_workshop_duration);
         editPrice = findViewById(R.id.edit_workshop_price);
