@@ -117,11 +117,16 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
 
         mapView = findViewById(R.id.map_workshop_location);
+        mapView.setOnTouchListener((view, event) -> {
+            view.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
         mapView.getMapboxMap().setCamera(
                 new CameraOptions.Builder()
                         .center(Point.fromLngLat(-0.8891, 41.6488))
-                        .zoom(14.0)
+                        .zoom(6.0)
                         .build()
         );
 
