@@ -59,7 +59,7 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
 
         recyclerView.setAdapter(eventAdapter);
 
-        setTitle("Eventos");
+        setTitle(getString(R.string.title_event_list));
     }
 
     @Override
@@ -93,10 +93,10 @@ public class EventListActivity extends AppCompatActivity implements EventListCon
 
     private void showDeleteDialog(Event event) {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar evento")
-                .setMessage("¿Seguro que quieres eliminar \"" + event.getTitle() + "\"?")
-                .setPositiveButton("Eliminar", (dialog, which) -> presenter.deleteEvent(event.getId()))
-                .setNegativeButton("Cancelar", null)
+                .setTitle(getString(R.string.title_event_delete))
+                .setMessage(getString(R.string.dialog_delete_event_message_named, event.getTitle()))
+                .setPositiveButton(getString(R.string.btn_delete), (dialog, which) -> presenter.deleteEvent(event.getId()))
+                .setNegativeButton(getString(R.string.btn_cancel), null)
                 .show();
     }
 

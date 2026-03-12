@@ -68,17 +68,17 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         eventId = getIntent().getLongExtra("event_id", -1);
 
         if (textTitle == null) {
-            Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.msg_layout_ids_incorrect), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (eventId == -1) {
-            Toast.makeText(this, "ID del evento no recibido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.msg_event_id_missing), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        setTitle("Detalle evento");
+        setTitle(getString(R.string.title_event_detail));
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -151,10 +151,10 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
     // Confirmando la eliminación para evitar borrados accidentales
     private void confirmDelete() {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar evento")
-                .setMessage("¿Seguro que quieres eliminar este evento?")
-                .setPositiveButton("Eliminar", (dialog, which) -> redirectToListForDelete())
-                .setNegativeButton("Cancelar", null)
+                .setTitle(getString(R.string.title_event_delete))
+                .setMessage(getString(R.string.dialog_delete_event_message))
+                .setPositiveButton(getString(R.string.btn_delete), (dialog, which) -> redirectToListForDelete())
+                .setNegativeButton(getString(R.string.action_cancel), null)
                 .show();
     }
 
@@ -207,8 +207,9 @@ public class EventDetailActivity extends AppCompatActivity implements EventDetai
         textTitle.setText(event.getTitle());
         textLocation.setText(event.getLocation());
         textDate.setText(DateUtil.formatDateTime(event.getEventDate()));
-        textEntryFee.setText("Precio " + event.getEntryFee() +  " €");
-        textPublic.setText("Evento público: " + (event.isPublic() ? "Sí" : "No"));
+        textEntryFee.setText(getString(R.string.label_entry_fee, String.valueOf(event.getEntryFee())));
+        textPublic.setText(getString(R.string.label_public_event_value,
+                event.isPublic() ? getString(R.string.value_yes) : getString(R.string.value_no)));
         showImageIfExists();
     }
 

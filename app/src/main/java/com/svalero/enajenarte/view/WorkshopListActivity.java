@@ -57,7 +57,7 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
 
         recyclerView.setAdapter(workshopAdapter);
 
-        setTitle("Talleres");
+        setTitle(getString(R.string.title_workshop_list));
     }
 
     @Override
@@ -89,11 +89,11 @@ public class WorkshopListActivity extends AppCompatActivity implements WorkshopL
 
     private void showDeleteDialog(Workshop workshop) {
         new AlertDialog.Builder(this)
-        .setTitle("Eliminar taller")
-        .setMessage("¿Seguro que quieres eliminar \"" + workshop.getName() + "\"?")
-        .setPositiveButton("Eliminar", (dialog, which) -> presenter.deleteWorkshop(workshop.getId()))
-        .setNegativeButton("Cancelar", null)
-        .show();
+        .setTitle(getString(R.string.title_workshop_delete))
+                .setMessage(getString(R.string.dialog_delete_workshop_message_named, workshop.getName()))
+                .setPositiveButton(getString(R.string.btn_delete), (dialog, which) -> presenter.deleteWorkshop(workshop.getId()))
+                .setNegativeButton(getString(R.string.btn_cancel), null)
+                .show();
     }
 
     // ACTIONBAR

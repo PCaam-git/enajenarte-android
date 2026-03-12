@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/event_detail_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,7 +17,7 @@
             android:id="@+id/text_event_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(nombre)"
+            tools:text="(nombre)"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -26,14 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(ubicación)" />
+            tools:text="(ubicación)" />
 
         <!-- FECHA -->
         <TextView
             android:id="@+id/text_event_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(Fecha)"
+            tools:text="(Fecha)"
             android:layout_marginTop="8dp" />
 
         <!-- Precio entrada -->
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Precio entrada)" />
+            tools:text="(Precio entrada)" />
 
          <!-- PÚBLICO -->
          <TextView
@@ -50,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Público)" />
+            tools:text="(Público)" />
 
         <!-- No se muestra placeholder, no se usa srcCompat.
         Visibility="gone" para que no ocupe espacio si no hay imagen -->

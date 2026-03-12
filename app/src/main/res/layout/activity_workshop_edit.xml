@@ -15,7 +15,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
+            android:hint="@string/label_name"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,7 +27,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripción"
+            android:hint="@string/label_description"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -40,7 +40,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha inicio (DD/MM/AAAA)"
+            android:hint="@string/hint_date_format"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -52,7 +52,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Duración (minutos)"
+            android:hint="@string/label_duration"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -65,7 +65,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio"
+            android:hint="@string/label_price"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -78,7 +78,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Capacidad máxima"
+            android:hint="@string/label_max_capacity"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -88,20 +88,20 @@
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_workshop_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="56dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Online"
+            android:text="@string/label_is_online"
             android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Speaker ID"
+            android:hint="@string/label_speaker_id"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -123,7 +123,7 @@
             android:id="@+id/button_select_workshop_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seleccionar imagen"
+            android:text="@string/btn_select_image"
             android:onClick="selectImage"
             android:layout_marginTop="8dp" />
 
@@ -137,14 +137,14 @@
             android:id="@+id/button_save_workshop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar cambios"
+            android:text="@string/btn_save"
             android:layout_marginTop="18dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel_workshop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancelar"/>
+            android:text="@string/btn_cancel"/>
 
     </LinearLayout>
 </ScrollView>

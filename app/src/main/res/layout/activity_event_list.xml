@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Consulta los eventos disponibles"
+        android:text="@string/desc_explore_events"
         android:textColor="@color/text_secondary"
         android:textSize="14sp" />
 
@@ -23,5 +23,4 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="8dp" />
-
 </LinearLayout>
