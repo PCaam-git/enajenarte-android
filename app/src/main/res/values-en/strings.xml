@@ -8,9 +8,17 @@
     <string name="title_home">Home</string>
     <string name="title_workshop_list">Workshops</string>
     <string name="title_workshop_detail">Workshop Detail</string>
+    <string name="title_workshop_edit">Edit workshop</string>
+    <string name="title_workshop_create">Create workshop</string>
+    <string name="title_workshop_delete">Delete workshop</string>
+    <string name="title_event_edit">Edit event</string>
+    <string name="title_event_create">Create event</string>
+    <string name="title_event_delete">Delete event</string>
     <string name="title_event_list">Events</string>
-    <string name="title_event_map">Events Map</string>
-    <string name="title_my_registrations">My Enrollments</string>
+    <string name="title_event_detail">Event detail</string>
+
+    <string name="title_confirm">Confirm</string>
+    <string name="title_preferences">Preferences</string>
 
     <!-- Main buttons -->
     <string name="btn_register">Register</string>
@@ -47,7 +55,7 @@
     <string name="menu_workshops">Workshops</string>
     <string name="menu_events">Events</string>
     <string name="menu_my_registrations">My Enrollments</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings">Preferences</string>
     <string name="menu_map">Map</string>
 
     <!-- Dialogs -->
@@ -62,5 +70,81 @@
 
     <!-- Welcome -->
     <string name="welcome_message">Welcome to Enajenarte</string>
-    <string name="welcome_subtitle">Explore our cultural workshops</string>
+    <string name="welcome_subtitle">Mentes Creativas</string>
+
+    <string name="menu_create">Create</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+
+
+    <!-- Preferencias -->
+    <string name="preferences_title">Preferences</string>
+    <string name="pref_only_future">Only future</string>
+    <string name="pref_large_text">Large text</string>
+    <string name="pref_show_maps">Show maps</string>
+    <string name="pref_show_maps_summary">Show the location in detail screens</string>
+
+    <string name="label_location">Location</string>
+    <string name="label_speaker_id">Speaker ID</string>
+    <string name="label_public_event">Public event</string>
+    <string name="label_max_capacity">Max Capacity</string>
+    <string name="hint_date_time">Date and time (dd/MM/yyyy HH:mm)</string>
+    <string name="hint_date_format">Start date (DD/MM/AAAA)</string>
+    <string name="hint_expected_attendance">Expected attendance</string>
+    <string name="hint_entry_fee">Entry (ej: 10.5)</string>
+    <string name="btn_select_image">Select image</string>
+    <string name="desc_explore_events">Browse the available events</string>
+    <string name="desc_explore_workshops">Explore the available workshops</string>
+
+    <!-- States and common errors -->
+    <string name="msg_layout_ids_incorrect">Incorrect layout/ids</string>
+    <string name="msg_event_id_missing">Event ID not received</string>
+    <string name="msg_workshop_id_missing">Workshop ID not received</string>
+
+    <!-- Coordinates messages -->
+    <string name="msg_coordinates_click">CLICK -&gt; Lat: %1$s Lon: %2$s</string>
+    <string name="msg_coordinates">Lat: %1$s Lon: %2$s</string>
+
+    <!-- Delete confirmations -->
+    <string name="dialog_delete_event_title">Delete event</string>
+    <string name="dialog_delete_event_message">Are you sure you want to delete this event?</string>
+    <string name="dialog_delete_event_message_named">Are you sure you want to delete "%1$s"?</string>
+    <string name="dialog_delete_workshop_title">Delete workshop</string>
+    <string name="dialog_delete_workshop_message">Are you sure you want to delete this workshop?</string>
+    <string name="dialog_delete_workshop_message_named">Are you sure you want to delete "%1$s"?</string>
+    <!-- Dialog buttons -->
+    <string name="action_accept">Accept</string>
+    <string name="action_cancel">Cancel</string>
+    <!-- Detail labels -->
+    <string name="label_entry_fee">Price %1$s €</string>
+    <string name="label_entry_fee_colon">Price: %1$s €</string>
+    <string name="label_public_event_value">Public event: %1$s</string>
+    <string name="label_online_value">Is online: %1$s</string>
+    <string name="label_duration_minutes">%1$d minutes</string>
+    <!-- Boolean responses -->
+    <string name="value_yes">Yes</string>
+    <string name="value_no">No</string>
+    <!-- Create/edit confirmation -->
+    <string name="dialog_confirm_title">Confirm</string>
+    <string name="dialog_confirm_update_event">Update this event?</string>
+    <string name="dialog_confirm_create_event">Create this event?</string>
+    <string name="dialog_confirm_update_workshop">Update this workshop?</string>
+    <string name="dialog_confirm_create_workshop">Create this workshop?</string>
+    <!-- Event form errors -->
+    <string name="error_http">HTTP error: %1$d</string>
+    <string name="error_required_event_fields">Fill in required fields (title, location, date and time, expected attendance, entry fee and speakerId)</string>
+    <string name="error_invalid_numeric_event">Incorrect format (expected attendance, price or speakerId)</string>
+    <string name="error_invalid_expected_attendance">Invalid expected attendance</string>
+    <string name="error_invalid_entry_fee">Invalid entry fee</string>
+    <string name="error_invalid_speaker_id">Invalid speakerId</string>
+    <string name="error_invalid_event_datetime">Invalid date and time format. Use dd/MM/yyyy HH:mm</string>
+
+    <!-- Workshop form errors -->
+    <string name="error_required_workshop_fields">Fill in required fields (name, date, duration, price, max capacity and speakerId)</string>
+    <string name="error_invalid_numeric_workshop">Incorrect numeric format (duration, price, max capacity or speakerId)</string>
+    <string name="error_invalid_duration">Minim duration: 1</string>
+    <string name="error_invalid_capacity">Max capacity: 1</string>
+    <string name="error_invalid_workshop_date">Invalid date format. Use dd/MM/yyyy</string>
+
+
 </resources>

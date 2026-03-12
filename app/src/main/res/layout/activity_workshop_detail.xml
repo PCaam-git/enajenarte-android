@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/workshop_detail_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/workshop_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- TÍTULO -->
+        <TextView
+            android:id="@+id/text_workshop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="(nombre)"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- DESCRIPCIÓN -->
+        <TextView
+            android:id="@+id/text_workshop_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(descripción)" />
+
+        <!-- FECHA DE INICIO -->
+        <TextView
+            android:id="@+id/text_workshop_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(Fecha de inicio)" />
+
+        <!-- DURACIÓN -->
+        <TextView
+            android:id="@+id/text_workshop_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(Duración)" />
+
+        <!-- PRECIO -->
+        <TextView
+            android:id="@+id/text_workshop_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(Precio)" />
+
+        <!-- ONLINE -->
+        <TextView
+            android:id="@+id/text_workshop_is_online"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(Online)" />
+
+        <!-- SPEAKER ID -->
+        <TextView
+            android:id="@+id/text_workshop_speaker_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="(Speaker ID)" />
+
+        <!-- No se muestra placeholder, no se usa srcCompat.
+        Visibility="gone" para que no ocupe espacio si no hay imagen -->
+        <ImageView
+            android:id="@+id/image_workshop_detail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <com.mapbox.maps.MapView
+            android:id="@+id/map_workshop_detail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </LinearLayout>
+</ScrollView>

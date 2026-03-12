@@ -3,22 +3,30 @@
     <string name="app_name">Enajenarte</string>
 
     <!-- Títulos de Activities -->
-    <string name="title_splash">Cargando</string>
-    <string name="title_register">Registro</string>
-    <string name="title_home">Inicio</string>
+<!--    <string name="title_splash">Cargando</string>-->
+<!--    <string name="title_register">Registro</string>-->
+<!--    <string name="title_home">Inicio</string>-->
     <string name="title_workshop_list">Talleres</string>
-    <string name="title_workshop_detail">Detalle del Taller</string>
+    <string name="title_workshop_detail">Detalle del taller</string>
+    <string name="title_workshop_edit">Editar taller</string>
+    <string name="title_workshop_create">Crear taller</string>
+    <string name="title_workshop_delete">Eliminar taller</string>
     <string name="title_event_list">Eventos</string>
-    <string name="title_event_map">Mapa de Eventos</string>
-    <string name="title_my_registrations">Mis Inscripciones</string>
+    <string name="title_event_detail">Detalle del evento</string>
+    <string name="title_event_edit">Editar evento</string>
+    <string name="title_event_create">Crear evento</string>
+    <string name="title_event_delete">Eliminar evento</string>
+    <string name="title_confirm">Confirmar</string>
+    <string name="title_preferences">Preferencias</string>
+
 
     <!-- Botones principales -->
-    <string name="btn_register">Registrarse</string>
-    <string name="btn_enroll">Inscribirse</string>
+<!--    <string name="btn_register">Registrarse</string>-->
+<!--    <string name="btn_enroll">Inscribirse</string>-->
     <string name="btn_view_workshops">Ver Talleres</string>
     <string name="btn_view_events">Ver Eventos</string>
-    <string name="btn_my_registrations">Mis Inscripciones</string>
-    <string name="btn_logout">Cerrar Sesión</string>
+<!--    <string name="btn_my_registrations">Mis Inscripciones</string>-->
+<!--    <string name="btn_logout">Cerrar Sesión</string>-->
     <string name="btn_save">Guardar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_delete">Eliminar</string>
@@ -26,8 +34,8 @@
     <string name="btn_confirm">Confirmar</string>
 
     <!-- Labels de formularios -->
-    <string name="label_username">Nombre de usuario</string>
-    <string name="label_email">Email</string>
+<!--    <string name="label_username">Nombre de usuario</string>-->
+<!--    <string name="label_email">Email</string>-->
     <string name="label_name">Nombre</string>
     <string name="label_description">Descripción</string>
     <string name="label_date">Fecha</string>
@@ -46,21 +54,117 @@
     <string name="menu_home">Inicio</string>
     <string name="menu_workshops">Talleres</string>
     <string name="menu_events">Eventos</string>
-    <string name="menu_my_registrations">Mis Inscripciones</string>
-    <string name="menu_settings">Ajustes</string>
+<!--    <string name="menu_my_registrations">Mis Inscripciones</string>-->
+    <string name="menu_settings">Preferencias</string>
     <string name="menu_map">Mapa</string>
 
     <!-- Diálogos -->
-    <string name="dialog_delete_title">Confirmar eliminación</string>
-    <string name="dialog_delete_message">¿Estás segura de que deseas eliminar este elemento?</string>
-    <string name="dialog_logout_title">Cerrar sesión</string>
-    <string name="dialog_logout_message">¿Deseas cerrar sesión?</string>
+<!--    <string name="dialog_delete_title">Confirmar eliminación</string>-->
+<!--    <string name="dialog_delete_message">¿Estás segura de que deseas eliminar este elemento?</string>-->
+<!--    <string name="dialog_logout_title">Cerrar sesión</string>-->
+<!--    <string name="dialog_logout_message">¿Deseas cerrar sesión?</string>-->
 
     <!-- Búsqueda -->
-    <string name="search_workshops">Buscar talleres...</string>
-    <string name="search_events">Buscar eventos...</string>
+<!--    <string name="search_workshops">Buscar talleres...</string>-->
+<!--    <string name="search_events">Buscar eventos...</string>-->
 
     <!-- Bienvenida -->
     <string name="welcome_message">Bienvenida a Enajenarte</string>
     <string name="welcome_subtitle">Explora nuestros talleres culturales</string>
+
+    <string name="menu_create">Crear</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_delete">Eliminar</string>
+
+    <!-- Preferencias -->
+    <string name="preferences_title">Preferencias</string>
+    <string name="pref_only_future">Solo futuros</string>
+    <string name="pref_large_text">Texto grande</string>
+    <string name="pref_show_maps">Mostrar mapas</string>
+    <string name="pref_show_maps_summary">Mostrar la ubicación en los detalles</string>
+
+    <string name="label_location">Ubicación</string>
+    <string name="label_speaker_id">Speaker ID</string>
+    <string name="label_public_event">Evento público</string>
+    <string name="label_max_capacity">Capacidad máxima</string>
+    <string name="hint_date_time">Fecha y hora (dd/MM/yyyy HH:mm)</string>
+    <string name="hint_date_format">Fecha inicio (DD/MM/AAAA)</string>
+    <string name="hint_expected_attendance">Asistencia esperada</string>
+    <string name="hint_entry_fee">Entrada (ej: 10.5)</string>
+    <string name="btn_select_image">Seleccionar imagen</string>
+    <string name="desc_explore_events">Consulta los eventos disponibles</string>
+    <string name="desc_explore_workshops">Explora los talleres disponibles</string>
+
+    <!-- Estados y errores comunes -->
+    <string name="msg_layout_ids_incorrect">Layout/ids incorrectos</string>
+    <string name="msg_event_id_missing">ID del evento no recibido</string>
+    <string name="msg_workshop_id_missing">ID del taller no recibido</string>
+
+    <!-- Mensajes de coordenadas -->
+    <string name="msg_coordinates_click">CLICK -&gt; Lat: %1$s Lon: %2$s</string>
+    <string name="msg_coordinates">Lat: %1$s Lon: %2$s</string>
+
+    <!-- Confirmaciones de borrado -->
+    <string name="dialog_delete_event_title">Eliminar evento</string>
+    <string name="dialog_delete_event_message">¿Seguro que quieres eliminar este evento?</string>
+    <string name="dialog_delete_event_message_named">¿Seguro que quieres eliminar "%1$s"?</string>
+    <string name="dialog_delete_workshop_title">Eliminar taller</string>
+    <string name="dialog_delete_workshop_message">¿Seguro que quieres eliminar este taller?</string>
+    <string name="dialog_delete_workshop_message_named">¿Seguro que quieres eliminar "%1$s"?</string>
+
+    <!-- Botones de diálogo -->
+    <string name="action_accept">Aceptar</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Etiquetas de detalle -->
+    <string name="label_entry_fee">Precio %1$s €</string>
+    <string name="label_entry_fee_colon">Precio: %1$s €</string>
+    <string name="label_public_event_value">Evento público: %1$s</string>
+    <string name="label_online_value">Es online: %1$s</string>
+    <string name="label_duration_minutes">%1$d minutos</string>
+
+    <!-- Respuestas booleanas -->
+    <string name="value_yes">Sí</string>
+    <string name="value_no">No</string>
+
+    <!-- Confirmación crear/editar -->
+    <string name="dialog_confirm_title">Confirmar</string>
+    <string name="dialog_confirm_update_event">¿Actualizar este evento?</string>
+    <string name="dialog_confirm_create_event">¿Crear este evento?</string>
+    <string name="dialog_confirm_update_workshop">¿Actualizar este taller?</string>
+    <string name="dialog_confirm_create_workshop">¿Crear este taller?</string>
+
+    <!-- Errores de formulario evento -->
+    <string name="error_http">Error HTTP: %1$d</string>
+    <string name="error_required_event_fields">Rellena los campos obligatorios (título, ubicación, fecha y hora, asistencia esperada, entrada y speakerId)</string>
+    <string name="error_invalid_numeric_event">Formato incorrecto (asistencia esperada, entrada o speakerId)</string>
+    <string name="error_invalid_expected_attendance">Asistencia esperada inválida</string>
+    <string name="error_invalid_entry_fee">Precio entrada inválido</string>
+    <string name="error_invalid_speaker_id">SpeakerId inválido</string>
+    <string name="error_invalid_event_datetime">Formato de fecha y hora inválido. Use dd/MM/yyyy HH:mm</string>
+
+    <!-- Errores de formulario taller -->
+    <string name="error_required_workshop_fields">Rellena los campos obligatorios (nombre, fecha, duración, precio, capacidad máxima y speakerId)</string>
+    <string name="error_invalid_numeric_workshop">Formato numérico incorrecto (duración, precio, capacidad máxima o speakerId)</string>
+    <string name="error_invalid_duration">Duración mínima: 1</string>
+    <string name="error_invalid_capacity">Capacidad mínima: 1</string>
+    <string name="error_invalid_workshop_date">Formato de fecha inválido. Use dd/MM/yyyy</string>
+    <string name="title_splash">Cargando</string>
+    <string name="title_register">Registro</string>
+    <string name="title_home">Inicio</string>
+    <string name="btn_register">Inscripciones</string>
+    <string name="btn_enroll">Inscríbete</string>
+    <string name="btn_my_registrations">Mis inscripciones</string>
+    <string name="btn_logout">Cerrar sesión</string>
+    <string name="label_username">Nombre de usuario</string>
+    <string name="label_email">Email</string>
+    <string name="menu_my_registrations">Mis inscripciones</string>
+    <string name="dialog_delete_title">Confirmar eliminación</string>
+    <string name="dialog_delete_message">¿Estás segura de que quieres eliminar este elemento?</string>
+    <string name="dialog_logout_title">Cerrar sesión</string>
+    <string name="dialog_logout_message">¿Quieres cerrar sesión?</string>
+    <string name="search_workshops">Buscar talleres...</string>
+    <string name="search_events">Buscar eventos..</string>
+
+
 </resources>
