@@ -8,8 +8,8 @@
 
     <SwitchPreferenceCompat
         android:key="show_maps"
-        android:title="Mostrar mapas"
-        android:summary="Mostrar la ubicación en los detalles"
+        android:title="@string/pref_show_maps"
+        android:summary="@string/pref_show_maps_summary"
         android:defaultValue="true" />
 
 

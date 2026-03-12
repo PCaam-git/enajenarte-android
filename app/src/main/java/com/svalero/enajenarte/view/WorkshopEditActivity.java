@@ -22,6 +22,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotation;
@@ -62,7 +63,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
     private EditText editDuration;
     private EditText editPrice;
     private EditText editMaxCapacity;
-    private Switch switchOnline;
+    private SwitchMaterial switchOnline;
     private String imageUri;
     private ImageView imagePreview;
     private EditText editSpeakerId;
@@ -140,9 +141,9 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
 
         if (isEditMode) {
             loadWorkshop(workshopId);
-            setTitle("Editar taller");
+            setTitle(getString(R.string.title_workshop_edit));
         } else {
-            setTitle("Crear taller");
+            setTitle(getString(R.string.title_workshop_create));
         }
 
         if (getSupportActionBar() != null) {
@@ -173,7 +174,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                         .zoom(16.0)
                         .build()
         );
-        showMessage("Lat: " + latitude + " Lon: " + longitude);
+        showMessage(getString(R.string.msg_coordinates, String.valueOf(latitude), String.valueOf(longitude)));
 
         return false;
     }
@@ -209,7 +210,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                 if (response.isSuccessful() && response.body() != null) {
                     fillForm(response.body());
                 } else {
-                    Toast.makeText(WorkshopEditActivity.this, "Error HTTP: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkshopEditActivity.this, getString(R.string.error_http, response.code()), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -250,7 +251,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                 latitude = localWorkshop.getLatitude();
                 longitude = localWorkshop.getLongitude();
 
-                showMessage("Lat: " + latitude + " Lon: " + longitude);
+                showMessage(getString(R.string.msg_coordinates, String.valueOf(latitude), String.valueOf(longitude)));
                 Point point = Point.fromLngLat(longitude, latitude);
                 currentPoint = point;
 
@@ -286,7 +287,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(startDate)
                 || TextUtils.isEmpty(durationStr) || TextUtils.isEmpty(priceStr)
                 || TextUtils.isEmpty(maxCapacityStr) ||TextUtils.isEmpty(speakerIdStr)) {
-            showError("Rellena los campos obligatorios (nombre, fecha, duración, precio, capacidad máxima y speakerId)");
+            showError(getString(R.string.error_required_workshop_fields));
             return;
         }
 
@@ -301,29 +302,29 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
             maxCapacity = Integer.parseInt(maxCapacityStr);
             speakerId = Long.parseLong(speakerIdStr);
         } catch (NumberFormatException e) {
-            showError("Formato numérico incorrecto (duración, precio, capacidad máxima o speakerId)");
+            showError(getString(R.string.error_invalid_numeric_workshop));
             return;
         }
 
         if (duration < 1) {
-            showError("Duración mínima: 1");
+            showError(getString(R.string.error_invalid_duration));
             return;
         }
 
         if (maxCapacity < 1) {
-            showError("Capacidad mínima: 1");
+            showError(getString(R.string.error_invalid_capacity));
             return;
         }
 
         if (speakerId < 1) {
-            showError("SpeakerId inválido");
+            showError(getString(R.string.error_invalid_speaker_id));
             return;
         }
 
         startDate = DateUtil.userToIsoDate(startDate);
 
         if (startDate == null) {
-            showError("Formato de fecha inválido. Use dd/MM/yyyy");
+            showError(getString(R.string.error_invalid_workshop_date));
             return;
         }
 
@@ -339,11 +340,11 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                 .build();
 
         new AlertDialog.Builder(this)
-                .setTitle("Confirmar")
+                .setTitle(getString(R.string.title_confirm))
                 .setMessage(workshopId != -1 ?
-                        "¿Actualizar este taller?" :
-                        "¿Crear este taller?")
-                .setPositiveButton("Aceptar", (dialog, which) -> {
+                        getString(R.string.dialog_confirm_update_workshop) :
+                        getString(R.string.dialog_confirm_create_workshop))
+                .setPositiveButton(getString(R.string.action_accept), (dialog, which) -> {
 
                     if (workshopId != -1) {
                         presenter.updateWorkshop(workshopId, request);
@@ -352,7 +353,7 @@ public class WorkshopEditActivity extends AppCompatActivity implements WorkshopE
                     }
 
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.action_cancel), null)
                 .show();
     }
 

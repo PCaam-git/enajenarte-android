@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/workshop_detail_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,7 +17,7 @@
             android:id="@+id/text_workshop_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(nombre)"
+            tools:text="(nombre)"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -26,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(descripción)" />
+            tools:text="(descripción)" />
 
         <!-- FECHA DE INICIO -->
         <TextView
@@ -34,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Fecha de inicio)" />
+            tools:text="(Fecha de inicio)" />
 
         <!-- DURACIÓN -->
         <TextView
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Duración)" />
+            tools:text="(Duración)" />
 
         <!-- PRECIO -->
         <TextView
@@ -50,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Precio)" />
+            tools:text="(Precio)" />
 
         <!-- ONLINE -->
         <TextView
@@ -58,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Online)" />
+            tools:text="(Online)" />
 
         <!-- SPEAKER ID -->
         <TextView
@@ -66,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="(Speaker ID)" />
+            tools:text="(Speaker ID)" />
 
         <!-- No se muestra placeholder, no se usa srcCompat.
         Visibility="gone" para que no ocupe espacio si no hay imagen -->
@@ -82,6 +83,5 @@
             android:id="@+id/map_workshop_detail"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-
     </LinearLayout>
 </ScrollView>

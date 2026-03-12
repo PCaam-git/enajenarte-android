@@ -46,7 +46,7 @@ public class WorkshopListPresenter implements WorkshopListContract.Presenter,
                 }
             }
         }
-        view.showWorkshops(workshops);
+        view.showWorkshops(filteredWorkshops);
         view.showMessage("Talleres cargados: " + workshops.size());
     }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".view.PreferencesActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/preferences_fragment"
         android:name="com.svalero.enajenarte.preferences.PreferencesFragment"
         android:layout_width="match_parent"

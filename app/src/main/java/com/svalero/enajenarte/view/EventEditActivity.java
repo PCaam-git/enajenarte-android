@@ -24,6 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.MapView;
@@ -62,7 +63,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
     private EditText editLocation;
     private EditText editEventDate;
     private EditText editExpectedAttendance;
-    private Switch switchPublic;
+    private SwitchMaterial switchPublic;
     private EditText editEntryFee;
     private EditText editSpeakerId;
     private String imageUri;
@@ -139,9 +140,9 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
 
         if (isEditMode) {
             loadEvent(eventId);
-            setTitle("Editar evento");
+            setTitle(getString(R.string.title_event_edit));
         } else {
-            setTitle("Crear evento");
+            setTitle(getString(R.string.title_event_create));
         }
 
         if (getSupportActionBar() != null) {
@@ -165,7 +166,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         latitude = point.latitude();
         longitude = point.longitude();
 
-        showMessage("CLICK -> Lat: " + latitude + " Lon: " + longitude);
+        //showMessage(getString(R.string.msg_coordinates_click, String.valueOf(latitude), String.valueOf(longitude)));
         MapUtils.addMarker(this, pointAnnotationManager, point);
 
         mapView.getMapboxMap().setCamera(
@@ -174,7 +175,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                         .zoom(16.0)
                         .build()
         );
-        showMessage("Lat: " + latitude + " Lon: " + longitude);
+        showMessage(getString(R.string.msg_coordinates, String.valueOf(latitude), String.valueOf(longitude)));
         return false;
     }
 
@@ -209,7 +210,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                 if (response.isSuccessful() && response.body() != null) {
                     fillForm(response.body());
                 } else {
-                    Toast.makeText(EventEditActivity.this, "Error HTTP: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventEditActivity.this, getString(R.string.error_http, response.code()), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -249,7 +250,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                 latitude = localEvent.getLatitude();
                 longitude = localEvent.getLongitude();
 
-                showMessage("Lat: " + latitude + " Lon: " + longitude);
+                showMessage(getString(R.string.msg_coordinates, String.valueOf(latitude), String.valueOf(longitude)));
                 Point point = Point.fromLngLat(longitude, latitude);
                 currentPoint = point;
 
@@ -285,7 +286,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(location) || TextUtils.isEmpty(eventDate)
                 || TextUtils.isEmpty(expectedAttendanceStr) || TextUtils.isEmpty(entryFeeStr)
                 || TextUtils.isEmpty(speakerIdStr)) {
-            showError("Rellena los campos obligatorios (título, ubicación, fecha y hora, asistencia esperada, entrada y speakerId)");
+            showError(getString(R.string.error_required_event_fields));
             return;
         }
 
@@ -298,29 +299,29 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
             entryFee = Float.parseFloat(entryFeeStr);
             speakerId = Long.parseLong(speakerIdStr);
         } catch (NumberFormatException e) {
-            showError("Formato incorrecto (asistencia esperada, entrada o speakerId)");
+            showError(getString(R.string.error_invalid_numeric_event));
             return;
         }
 
         if (expectedAttendance < 0) {
-            showError("Asistencia esperada inválida");
+            showError(getString(R.string.error_invalid_expected_attendance));
             return;
         }
 
         if (entryFee < 0) {
-            showError("Precio entrada inválido");
+            showError(getString(R.string.error_invalid_entry_fee));
             return;
         }
 
         if (speakerId < 1) {
-            showError("SpeakerId inválido");
+            showError(getString(R.string.error_invalid_speaker_id));
             return;
         }
 
         eventDate = DateUtil.userToIsoDateTime(eventDate);
 
         if (eventDate == null) {
-            showError("Formato de fecha y hora inválido. Use dd/MM/yyyy HH:mm");
+            showError(getString(R.string.error_invalid_event_datetime));
             return;
         }
 
@@ -336,11 +337,11 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                 .build();
 
         new AlertDialog.Builder(this)
-                .setTitle("Confirmar")
+                .setTitle(getString(R.string.title_confirm))
                 .setMessage(eventId != -1 ?
-                        "¿Actualizar este evento?" :
-                        "¿Crear este evento?")
-                .setPositiveButton("Aceptar", (dialog, which) -> {
+                        getString(R.string.dialog_confirm_update_event) :
+                        getString(R.string.dialog_confirm_create_event))
+                .setPositiveButton(getString(R.string.action_accept), (dialog, which) -> {
 
                     if (eventId != -1) {
                         presenter.updateEvent(eventId, request);
@@ -349,7 +350,7 @@ public class EventEditActivity extends AppCompatActivity implements EventEditCon
                     }
 
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.action_cancel), null)
                 .show();
     }
 

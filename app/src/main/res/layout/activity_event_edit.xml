@@ -22,7 +22,7 @@
                 android:id="@+id/edit_event_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Título"
+                android:hint="@string/label_name"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -35,14 +35,14 @@
                 android:id="@+id/edit_event_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ubicación"
+                android:hint="@string/label_location"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha y hora (dd/MM/yyyy HH:mm)"
+            android:hint="@string/hint_date_time"
             app:boxBackgroundColor="@color/surface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -61,18 +61,18 @@
                 android:id="@+id/edit_event_expected_attendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Asistencia esperada"
+                android:hint="@string/hint_expected_attendance"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_event_public"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="56dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Evento público"
+            android:text="@string/label_public_event"
             android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +84,7 @@
                 android:id="@+id/edit_event_entry_fee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Entrada (ej: 10.5)"
+                android:hint="@string/hint_entry_fee"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +97,7 @@
                 android:id="@+id/edit_event_speaker_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="SpeakerId"
+                android:hint="@string/label_speaker_id"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +113,7 @@
             android:id="@+id/button_select_event_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seleccionar imagen"
+            android:text="@string/btn_select_image"
             android:onClick="selectImage"
             android:layout_marginTop="8dp" />
 
@@ -127,13 +127,13 @@
             android:id="@+id/button_save_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar" />
+            android:text="@string/btn_save" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancelar"/>
+            android:text="@string/btn_cancel"/>
 
     </LinearLayout>
 

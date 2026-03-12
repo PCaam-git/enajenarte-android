@@ -14,7 +14,7 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 
-        setTitle("Preferencias");
+        setTitle(getString(R.string.preferences_title));
 
         if (getSupportActionBar() !=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

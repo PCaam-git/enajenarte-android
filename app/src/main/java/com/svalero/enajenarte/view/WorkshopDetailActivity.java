@@ -71,17 +71,17 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         workshopId = getIntent().getLongExtra("workshop_id", -1);
 
         if (nameTextView == null) {
-            Toast.makeText(this, "Layout/ids incorrectos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.msg_layout_ids_incorrect), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (workshopId == -1) {
-            Toast.makeText(this, "ID del taller no recibido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.msg_workshop_id_missing), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        setTitle("Detalle taller");
+        setTitle(getString(R.string.title_workshop_detail));
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -155,10 +155,10 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
     // Confirmando la eliminación para evitar borrados accidentales
     private void confirmDelete() {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar taller")
-                .setMessage("¿Seguro que quieres eliminar este taller?")
-                .setPositiveButton("Eliminar", (dialog, which) -> redirectToListForDelete())
-                .setNegativeButton("Cancelar", null)
+                .setTitle(getString(R.string.title_workshop_delete))
+                .setMessage(getString(R.string.dialog_delete_workshop_message))
+                .setPositiveButton(getString(R.string.btn_delete), (dialog, which) -> redirectToListForDelete())
+                .setNegativeButton(getString(R.string.btn_cancel), null)
                 .show();
     }
 
@@ -213,9 +213,11 @@ public class WorkshopDetailActivity extends AppCompatActivity implements Worksho
         nameTextView.setText(workshop.getName());
         descriptionTextView.setText(workshop.getDescription());
         startDateTextView.setText(workshop.getStartDate() != null ? workshop.getStartDate().toString() : "");
-        durationTextView.setText(workshop.getDurationMinutes() + " minutos");
-        priceTextView.setText("Precio: " + (workshop.getPrice() + " €"));
-        isOnlineTextView.setText("Es online: " +(workshop.isOnline() ? "Sí" : "No"));
+        durationTextView.setText(getString(R.string.label_duration_minutes, workshop.getDurationMinutes()));
+        priceTextView.setText(getString(R.string.label_entry_fee_colon, String.valueOf(workshop.getPrice())));
+
+        String isOnlineText = workshop.isOnline() ? getString(R.string.value_yes) : getString(R.string.value_no);
+        isOnlineTextView.setText(getString(R.string.label_online_value, isOnlineText));
         speakerIdTextView.setText(String.valueOf(workshop.getSpeakerId()));
         showImageIfExists();
     }
